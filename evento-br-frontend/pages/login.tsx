@@ -1,5 +1,6 @@
 import ButtonApp from '@/src/button';
 import '../app/globals.css';
+import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 
 import { Tilt_Warp } from 'next/font/google';
@@ -7,7 +8,7 @@ const tilt_warp = Tilt_Warp({
   subsets: ['latin'],
 });
 
-export default function HomePage({}) {
+export default function LoginPage({}) {
   return (
     <>
       <div className="text-center space-y-6 max-w-lg">
@@ -15,15 +16,12 @@ export default function HomePage({}) {
           <span className="text-blue-500 text-6xl">Evento</span>
           <span className="text-yellow-500 text-6xl">Brasil</span>
         </h1>
-        <Link href="/login">
-          <ButtonApp size="lg" text="Efetuar Login" />
-        </Link>
-        <br />
-        <Link href="/cadastro">
-          <ButtonApp size="lg" text="Cadastrar Usuário" />
+        <Input placeholder="Inserir email" />
+        <Input placeholder="Inserir senha" />
+        <Link href="/mapa">
+          <ButtonApp size="lg" text="Log in" />
         </Link>
       </div>
-      <div className="flex flex-col items-center justify-center space-y-4 mt-6"></div>
     </>
   );
 }
