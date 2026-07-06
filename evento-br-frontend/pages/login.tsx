@@ -11,7 +11,7 @@ const tilt_warp = Tilt_Warp({
 export default function LoginPage({}) {
   return (
     <>
-      <div className="text-center space-y-6 max-w-lg">
+      <div className="mx-auto flex min-h-screen w-full max-w-lg flex-col items-center justify-center space-y-6 px-4 text-center">
         <h1 className={tilt_warp.className}>
           <span className="text-blue-500 text-6xl">Evento</span>
           <span className="text-yellow-500 text-6xl">Brasil</span>
