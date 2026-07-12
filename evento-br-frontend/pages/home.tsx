@@ -2,6 +2,7 @@ import ButtonApp from '@/src/button';
 import '../app/globals.css';
 import Link from 'next/link';
 import { Tilt_Warp } from 'next/font/google';
+import SearchBar from '@/src/searchBar';
 const tilt_warp = Tilt_Warp({
   subsets: ['latin'],
 });
@@ -31,6 +32,7 @@ function User4() {
 export default function HomePage({}) {
   return (
     <>
+      <SearchBar />
       <h1 className={tilt_warp.className}>
         <span className="text-blue-500 text-6xl">Evento</span>
         <span className="text-yellow-500 text-6xl">Brasil</span>
