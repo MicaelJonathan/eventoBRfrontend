@@ -15,17 +15,7 @@ interface searchBarProps {
   data?: string[];
 }
 
-export default function SearchBar({
-  placeholder = 'Search...',
-  emptyMessage = 'Item vazio',
-  data = [
-    'Item de Exemplo 1',
-    'Item de Exemplo 2',
-    'Item de Exemplo 3',
-    'Item de Exemplo 4',
-    'Item de Exemplo 5',
-  ],
-}: searchBarProps) {
+export default function SearchBar({ placeholder, emptyMessage, data }: searchBarProps) {
   return (
     <Combobox items={data}>
       <ComboboxInput
