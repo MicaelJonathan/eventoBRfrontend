@@ -1,6 +1,7 @@
-import { Card, CardHeader, CardAction, CardContent } from './card';
+import { Card, CardHeader, CardAction, CardContent, CardFooter } from './card';
 import { Label } from './label';
 import { Input } from './input';
+import { Button } from './button';
 
 export default function RegisterUserForm() {
   return (
@@ -35,6 +36,10 @@ export default function RegisterUserForm() {
           </div>
         </form>
       </CardContent>
+      <CardFooter>
+        <Button type="submit">Criar Conta</Button>
+        <Button variant={'outline'}>Cancelar</Button>
+      </CardFooter>
     </Card>
   );
 }
