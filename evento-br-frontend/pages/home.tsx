@@ -15,15 +15,17 @@ const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
 
 export default function HomePage({}) {
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-zinc-950">
-      <MapComponent latitude={-7.02556} longitude={-37.2779}/>
+    <div className="relative min-h-screen">
+      <MapComponent latitude={-7.02556} longitude={-37.2779} className="z-0" />
 
-      <div className="fixed top-0 left-0 z-[1000]">
-        <SearchBar
-          placeholder="Aqui será o texto antes de digitar"
-          data={['Opção 1', 'Opção 2']}
-          emptyMessage="Não há esse item..."
-        />
+      <div className="fixed top-8 left-8 z-1">
+        <div className="">
+          <SearchBar
+            placeholder="Procure um evento..."
+            data={[]}
+            emptyMessage="Esse vento não existe..."
+          />
+        </div>
       </div>
     </div>
   );
