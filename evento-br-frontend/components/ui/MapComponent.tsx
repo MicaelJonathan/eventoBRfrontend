@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -19,6 +20,7 @@ const defaultIcon = L.icon({
 
 export default function MapComponent({ latitude, longitude, className }: MapComponentProps) {
   const centerPosition: [number, number] = [latitude, longitude];
+  const mapRef = useRef<L.Map | null>(null);
 
   return (
     <MapContainer
@@ -27,6 +29,15 @@ export default function MapComponent({ latitude, longitude, className }: MapComp
       zoomControl={false}
       style={{ width: '100vw', height: '100vh' }}
       className={className}
+      // Pelo que entendi, garante que o mapa apareça corretamente e não fique "duplicado" nas refs.
+      whenReady={() => {
+      const container = mapRef.current?.getContainer();
+        if (container) {
+          (container as any)._leaflet_id = mapRef.current
+            ? (mapRef.current as any)._leaflet_id
+            : null;
+        }
+      }}
     >
       {}
       <TileLayer
