@@ -1,3 +1,4 @@
+// Teste 2
 import HomePage from '@/pages/home';
 import RegisterUserPage from '@/pages/registerUser';
 
