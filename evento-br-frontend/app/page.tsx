@@ -1,3 +1,4 @@
+// Pequeno teste
 import HomePage from '@/pages/home';
 import RegisterUserPage from '@/pages/registerUser';
 
