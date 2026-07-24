@@ -4,8 +4,8 @@ import '../app/globals.css';
 import dynamic from 'next/dynamic';
 import SearchBar from '@/components/ui/searchBar';
 import { Button } from '@/components/ui/button';
-import LoginForm from '@/components/ui/registerUserForm';
-import SignupUserForm from '@/components/ui/signupUserForm';
+import SignInUserForm from '@/components/ui/signInUserForm';
+import SignUpUserForm from '@/components/ui/signUpUserForm';
 import { defaultMapValues } from '@/lib/constants';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useState } from 'react';
@@ -74,7 +74,7 @@ export default function HomePage({}) {
           <DialogHeader>
             <DialogTitle>Entrar na sua conta</DialogTitle>
           </DialogHeader>
-          <LoginForm />
+          <SignInUserForm />
         </DialogContent>
       </Dialog>
 
@@ -83,7 +83,7 @@ export default function HomePage({}) {
           <DialogHeader>
             <DialogTitle>Criar conta</DialogTitle>
           </DialogHeader>
-          <SignupUserForm />
+          <SignUpUserForm />
         </DialogContent>
       </Dialog>
     </div>

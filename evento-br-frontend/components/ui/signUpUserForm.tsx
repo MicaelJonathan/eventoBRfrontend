@@ -6,7 +6,7 @@ import { Label } from './label';
 import { Input } from './input';
 import { Button } from './button';
 
-export default function SignInUserForm() {
+export default function SignUpUserForm() {
   const [isPessoaJuridica, setIsPessoaJuridica] = useState(false);
 
   return (
