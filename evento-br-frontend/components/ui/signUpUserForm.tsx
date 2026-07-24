@@ -6,7 +6,11 @@ import { Label } from './label';
 import { Input } from './input';
 import { Button } from './button';
 
-export default function SignUpUserForm() {
+type SignUpUserFormProps = {
+  onCancel?: () => void;
+};
+
+export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
   const [isPessoaJuridica, setIsPessoaJuridica] = useState(false);
 
   return (
@@ -64,7 +68,12 @@ export default function SignUpUserForm() {
       </CardContent>
       <CardFooter className="bg-grayui">
         <Button type="submit">Criar Conta</Button>
-        <Button variant={'outline'} className="text-gray-700">
+        <Button
+          type="button"
+          variant={'outline'}
+          className="text-gray-700"
+          onClick={() => onCancel?.()}
+        >
           Cancelar
         </Button>
       </CardFooter>

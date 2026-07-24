@@ -80,7 +80,7 @@ export default function HomePage({}) {
 
       <Dialog open={signupOpen} onOpenChange={setSignupOpen}>
         <DialogContent className="p-0 sm:max-w-md">
-          <SignUpUserForm />
+          <SignUpUserForm onCancel={() => setSignupOpen(false)} />
         </DialogContent>
       </Dialog>
     </div>
