@@ -79,10 +79,7 @@ export default function HomePage({}) {
       </Dialog>
 
       <Dialog open={signupOpen} onOpenChange={setSignupOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Criar conta</DialogTitle>
-          </DialogHeader>
+        <DialogContent className="p-0 sm:max-w-md">
           <SignUpUserForm />
         </DialogContent>
       </Dialog>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardHeader, CardAction, CardContent, CardFooter } from './card';
+import { Card, CardHeader, CardContent, CardFooter } from './card';
 import { Label } from './label';
 import { Input } from './input';
 import { Button } from './button';
@@ -10,10 +10,11 @@ export default function SignUpUserForm() {
   const [isPessoaJuridica, setIsPessoaJuridica] = useState(false);
 
   return (
-    <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit">
-      <CardHeader>
-        <CardAction></CardAction>
-      </CardHeader>
+    <Card
+      size="default"
+      className="mx-auto w-full max-w-4xl max-h-fit bg-primaryui text-(--whiteui)"
+    >
+      <CardHeader>Criar uma nova conta</CardHeader>
       <CardContent>
         <form>
           <div className="flex flex-col gap-4">
@@ -42,12 +43,13 @@ export default function SignUpUserForm() {
                 <Label htmlFor="documento">{isPessoaJuridica ? 'CNPJ' : 'CPF'}</Label>
                 <Button
                   type="button"
-                  variant={isPessoaJuridica ? 'default' : 'outline'}
                   size="sm"
                   aria-pressed={isPessoaJuridica}
                   onClick={() => setIsPessoaJuridica((prev) => !prev)}
                 >
-                  Cadastrar como pessoa jurídica
+                  {isPessoaJuridica
+                    ? 'Cadastrar como pessoa física'
+                    : 'Cadastrar como pessoa jurídica'}
                 </Button>
               </div>
               <Input
@@ -60,9 +62,11 @@ export default function SignUpUserForm() {
           </div>
         </form>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="bg-grayui">
         <Button type="submit">Criar Conta</Button>
-        <Button variant={'outline'}>Cancelar</Button>
+        <Button variant={'outline'} className="text-gray-700">
+          Cancelar
+        </Button>
       </CardFooter>
     </Card>
   );
