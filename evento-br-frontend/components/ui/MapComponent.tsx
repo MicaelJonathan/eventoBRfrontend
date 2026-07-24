@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { defaultMapValues } from '@/lib/constants';
 
 interface MapComponentProps {
   latitude: number;
@@ -14,8 +15,8 @@ interface MapComponentProps {
 const defaultIcon = L.icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
+  iconSize: defaultMapValues.iconSize,
+  iconAnchor: defaultMapValues.iconAnchor,
 });
 
 export default function MapComponent({ latitude, longitude, className }: MapComponentProps) {
@@ -25,13 +26,12 @@ export default function MapComponent({ latitude, longitude, className }: MapComp
   return (
     <MapContainer
       center={centerPosition}
-      zoom={13}
+      zoom={defaultMapValues.zoom}
       zoomControl={false}
       style={{ width: '100vw', height: '100vh' }}
       className={className}
-      // Pelo que entendi, garante que o mapa apareça corretamente e não fique "duplicado" nas refs.
       whenReady={() => {
-      const container = mapRef.current?.getContainer();
+        const container = mapRef.current?.getContainer();
         if (container) {
           (container as any)._leaflet_id = mapRef.current
             ? (mapRef.current as any)._leaflet_id
@@ -45,7 +45,6 @@ export default function MapComponent({ latitude, longitude, className }: MapComp
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {/* Pin exemplo teste, delete depois */}
       <Marker position={centerPosition} icon={defaultIcon}>
         <Popup>
           <span className="text-zinc-900 font-medium">Evento massa aqui!</span>
