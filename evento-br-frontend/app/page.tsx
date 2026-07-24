@@ -1,5 +1,5 @@
 import HomePage from '@/pages/home';
-import RegisterUserPage from '@/pages/registerUser';
+import RegisterUserPage from '@/pages/signUpUserPage';
 
 export default function Home() {
   return (
