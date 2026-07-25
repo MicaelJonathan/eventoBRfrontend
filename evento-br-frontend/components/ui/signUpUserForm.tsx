@@ -1,17 +1,31 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardHeader, CardContent, CardFooter } from './card';
+import { Card, CardHeader, CardContent } from './card';
 import { Label } from './label';
 import { Input } from './input';
 import { Button } from './button';
+import { useForm } from 'react-hook-form';
 
 type SignUpUserFormProps = {
   onCancel?: () => void;
 };
 
+type UserDataProps = {
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  identifier: string;
+};
+
+const handleSave = (data: UserDataProps) => {
+  console.log(data);
+};
+
 export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
-  const [isPessoaJuridica, setIsPessoaJuridica] = useState(false);
+  const [isLegalPerson, setIsLegalPerson] = useState(false);
+  const { register, handleSubmit } = useForm<UserDataProps>();
 
   return (
     <Card
@@ -20,63 +34,63 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
     >
       <CardHeader>Criar uma nova conta</CardHeader>
       <CardContent>
-        <form>
+        <form onSubmit={handleSubmit(handleSave)}>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <Label htmlFor="nome">Nome</Label>
-              <Input id="nome" type="text" placeholder="Seu nome completo" required />
+              <Input {...register('name')} type="text" placeholder="Seu nome completo" />
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="email">E-mail</Label>
-              <Input id="email" type="email" placeholder="email@exemplo.com" required />
+              <Input {...register('email')} type="string" placeholder="email@exemplo.com" />
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="senha">Senha</Label>
-              <Input id="senha" type="password" placeholder="Digite sua senha aqui..." required />
+              <Input
+                {...register('password')}
+                type="password"
+                placeholder="Digite sua senha aqui..."
+              />
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="telefone">Telefone</Label>
-              <Input id="telefone" type="tel" placeholder="(00) 00000-0000" required />
+              <Input {...register('phone')} type="tel" placeholder="(00) 00000-0000" />
             </div>
 
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="documento">{isPessoaJuridica ? 'CNPJ' : 'CPF'}</Label>
+                <Label htmlFor="documento">{isLegalPerson ? 'CNPJ' : 'CPF'}</Label>
                 <Button
                   type="button"
                   size="sm"
-                  aria-pressed={isPessoaJuridica}
-                  onClick={() => setIsPessoaJuridica((prev) => !prev)}
+                  aria-pressed={isLegalPerson}
+                  onClick={() => setIsLegalPerson((prev) => !prev)}
                 >
-                  {isPessoaJuridica
+                  {isLegalPerson
                     ? 'Cadastrar como pessoa física'
                     : 'Cadastrar como pessoa jurídica'}
                 </Button>
               </div>
               <Input
-                id="documento"
+                {...register('identifier')}
                 type="text"
-                placeholder={isPessoaJuridica ? '00.000.000/0000-00' : '000.000.000-00'}
-                required
+                placeholder={isLegalPerson ? '00.000.000/0000-00' : '000.000.000-00'}
               />
+            </div>
+            <div className="flex gap-2">
+              <Button type="submit" variant={'outline'} className="text-gray-700">
+                Criar Conta
+              </Button>
+              <Button type="button" onClick={() => onCancel?.()}>
+                Cancelar
+              </Button>
             </div>
           </div>
         </form>
       </CardContent>
-      <CardFooter className="bg-grayui">
-        <Button type="submit">Criar Conta</Button>
-        <Button
-          type="button"
-          variant={'outline'}
-          className="text-gray-700"
-          onClick={() => onCancel?.()}
-        >
-          Cancelar
-        </Button>
-      </CardFooter>
     </Card>
   );
 }
