@@ -21,8 +21,8 @@ const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
 });
 
 export default function HomePage({}) {
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [signupOpen, setSignupOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
+  const [signUpOpen, setSignUpOpen] = useState(false);
 
   return (
     <div className="relative min-h-screen">
@@ -56,31 +56,28 @@ export default function HomePage({}) {
 
       <div className="fixed top-8 right-8 z-1 flex gap-3">
         <Button
-          onClick={() => setLoginOpen(true)}
+          onClick={() => setSignInOpen(true)}
           className="h-16 px-10 rounded-2xl bg-primaryui text-(--whiteui) hover:bg-primaryui/80"
         >
           Login
         </Button>
         <Button
-          onClick={() => setSignupOpen(true)}
+          onClick={() => setSignUpOpen(true)}
           className="h-16 px-10 rounded-2xl bg-primaryui text-(--whiteui) hover:bg-primaryui/80"
         >
           Cadastro
         </Button>
       </div>
 
-      <Dialog open={loginOpen} onOpenChange={setLoginOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Entrar na sua conta</DialogTitle>
-          </DialogHeader>
-          <SignInUserForm />
+      <Dialog open={signInOpen} onOpenChange={setSignInOpen}>
+        <DialogContent className="p-0 sm:max-w-md">
+          <SignInUserForm onCancel={() => setSignInOpen(false)} />
         </DialogContent>
       </Dialog>
 
-      <Dialog open={signupOpen} onOpenChange={setSignupOpen}>
+      <Dialog open={signUpOpen} onOpenChange={setSignUpOpen}>
         <DialogContent className="p-0 sm:max-w-md">
-          <SignUpUserForm onCancel={() => setSignupOpen(false)} />
+          <SignUpUserForm onCancel={() => setSignUpOpen(false)} />
         </DialogContent>
       </Dialog>
     </div>
