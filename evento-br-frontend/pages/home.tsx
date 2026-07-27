@@ -70,7 +70,7 @@ export default function HomePage({}) {
       </div>
 
       <Dialog open={signInOpen} onOpenChange={setSignInOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="p-0 sm:max-w-md">
           <SignInUserForm onCancel={() => setSignInOpen(false)} />
         </DialogContent>
       </Dialog>
