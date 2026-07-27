@@ -1,3 +1,4 @@
+// Pequeno teste 2
 import HomePage from '@/pages/home';
 
 export default function Home() {
