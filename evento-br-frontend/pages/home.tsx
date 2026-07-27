@@ -4,8 +4,8 @@ import '../app/globals.css';
 import dynamic from 'next/dynamic';
 import SearchBar from '@/components/ui/searchBar';
 import { Button } from '@/components/ui/button';
-import LoginForm from '@/components/ui/registerUserForm';
-import SignupUserForm from '@/components/ui/signupUserForm';
+import SignInUserForm from '@/components/ui/signInUserForm';
+import SignUpUserForm from '@/components/ui/signUpUserForm';
 import { defaultMapValues } from '@/lib/constants';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useState } from 'react';
@@ -74,16 +74,13 @@ export default function HomePage({}) {
           <DialogHeader>
             <DialogTitle>Entrar na sua conta</DialogTitle>
           </DialogHeader>
-          <LoginForm />
+          <SignInUserForm />
         </DialogContent>
       </Dialog>
 
       <Dialog open={signupOpen} onOpenChange={setSignupOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Criar conta</DialogTitle>
-          </DialogHeader>
-          <SignupUserForm />
+        <DialogContent className="p-0 sm:max-w-md">
+          <SignUpUserForm onCancel={() => setSignupOpen(false)} />
         </DialogContent>
       </Dialog>
     </div>

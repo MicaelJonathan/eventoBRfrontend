@@ -1,6 +1,10 @@
-Para executar o frontend ~
+## Como Executar o Frontend
 
-INSTALE NPM E NODE EM SUA IDE
-INSTALE O NDOE_MODULES COM 'NPM INSTALL' NA PASTA 'evento-br-frontend'
-CERTIFIQUE SE DE ESTÁ DENTRO DA SUB-PASTA AO REALIZAR PULL,PUSH OU REBASE
-CASO OCORRA ERRO DE DEPLOY CERTIFIQUE QUE A ROOT DIRECTORY DO PROJETO SEJA A SUB-PASTA 'evento-br-frontend'
+### Instalação
+
+1. Certifique-se de ter o **Node.js** e o **npm** instalados em sua IDE/ambiente.
+2. Navegue até a pasta do projeto e instale as dependências:
+
+```bash
+cd evento-br-frontend
+npm install
