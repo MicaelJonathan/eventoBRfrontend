@@ -3,6 +3,7 @@ import { Input } from './input';
 import { Button } from './button';
 import { useForm } from 'react-hook-form';
 import { Card, CardHeader, CardContent } from './card';
+import * as z from 'zod';
 
 type SignInUserFormProps = {
   onCancel?: () => void;
@@ -13,8 +14,21 @@ type userDataProps = {
   password: string;
 };
 
+const userDataSchema = z.object({
+  email: z.email(),
+  password: z
+    .string()
+    .min(8, { message: 'A senha deve ter no mínimo 8 caracteres' })
+    .max(20, { message: 'A senha deve ter no máximo 20 caracteres' }),
+});
+
 const handleLogin = (data: userDataProps) => {
-  console.log(data);
+  const safeParsedData = userDataSchema.safeParse(data);
+  if (safeParsedData.success) {
+    console.log(safeParsedData.data);
+  } else {
+    console.log(safeParsedData.error);
+  }
 };
 
 export default function SignInUserForm({ onCancel }: SignInUserFormProps) {
