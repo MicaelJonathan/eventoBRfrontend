@@ -2,7 +2,11 @@ import { Label } from './label';
 import { Input } from './input';
 import { Button } from './button';
 
-export default function SignInUserForm() {
+type SignInUserFormProps = {
+  onCancel?: () => void;
+};
+
+export default function SignInUserForm({ onCancel }: SignInUserFormProps) {
   return (
     <form>
       <div className="flex flex-col gap-4">
@@ -22,7 +26,7 @@ export default function SignInUserForm() {
       </div>
       <div className="flex gap-2 mt-6">
         <Button type="submit">Entrar</Button>
-        <Button variant={'outline'} type="button">
+        <Button variant={'outline'} type="button" onClick={() => onCancel?.()}>
           Cancelar
         </Button>
       </div>

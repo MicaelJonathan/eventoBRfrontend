@@ -71,10 +71,7 @@ export default function HomePage({}) {
 
       <Dialog open={signInOpen} onOpenChange={setSignInOpen}>
         <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Entrar na sua conta</DialogTitle>
-          </DialogHeader>
-          <SignInUserForm />
+          <SignInUserForm onCancel={() => setSignInOpen(false)} />
         </DialogContent>
       </Dialog>
 
