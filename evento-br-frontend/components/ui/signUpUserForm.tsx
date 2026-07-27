@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Card, CardHeader, CardContent } from './card';
 import { Label } from './label';
 import { Input } from './input';
 import { Button } from './button';
 import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 type SignUpUserFormProps = {
   onCancel?: () => void;
@@ -16,15 +17,37 @@ type UserDataProps = {
   email: string;
   password: string;
   phone: string;
-  identifier: string;
+  // identifier: string;
 };
 
+const userDataSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: 'O nome deve ter no mínimo 3 caracteres' })
+    .max(100, { message: 'O nome deve ter no máximo 100 caracteres' }),
+
+  email: z.email(),
+  password: z
+    .string()
+    .min(8, { message: 'A senha deve ter no mínimo 8 caracteres' })
+    .max(20, { message: 'A senha deve ter no máximo 20 caracteres' }),
+
+  phone: z.string().regex(/^\d{2}9\d{8}$/, {
+    message: 'O telefone deve estar no formato (00) 00000-0000',
+  }),
+});
+
 const handleSave = (data: UserDataProps) => {
-  console.log(data);
+  const safeParsedData = userDataSchema.safeParse(data);
+  if (safeParsedData.success) {
+    console.log(safeParsedData.data);
+  } else {
+    console.log(safeParsedData.error);
+  }
 };
 
 export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
-  const [isLegalPerson, setIsLegalPerson] = useState(false);
+  // const [isLegalPerson, setIsLegalPerson] = useState(false);
   const { register, handleSubmit } = useForm<UserDataProps>();
 
   return (
@@ -60,7 +83,7 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
               <Input {...register('phone')} type="tel" placeholder="(00) 00000-0000" />
             </div>
 
-            <div className="flex flex-col gap-2">
+            {/* <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="documento">{isLegalPerson ? 'CNPJ' : 'CPF'}</Label>
                 <Button
@@ -79,7 +102,7 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
                 type="text"
                 placeholder={isLegalPerson ? '00.000.000/0000-00' : '000.000.000-00'}
               />
-            </div>
+            </div> */}
             <div className="flex gap-2">
               <Button type="submit" variant={'outline'} className="text-gray-700">
                 Criar Conta
