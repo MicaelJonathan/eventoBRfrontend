@@ -3,8 +3,8 @@
 import '../app/globals.css';
 import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
-import SignInUserForm from '@/components/ui/signInUserForm';
-import SignUpUserForm from '@/components/ui/signUpUserForm';
+import SignInUserForm from '@/components/auth/signInUserForm';
+import SignUpUserForm from '@/components/auth/signUpUserForm';
 import { defaultMapValues } from '@/lib/constants';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useState } from 'react';

@@ -1,10 +1,10 @@
 'use client';
 
 // import { useState } from 'react';
-import { Card, CardHeader, CardContent } from './card';
-import { Label } from './label';
-import { Input } from './input';
-import { Button } from './button';
+import { Card, CardHeader, CardContent } from '../ui/card';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
