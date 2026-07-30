@@ -27,8 +27,14 @@ export default function HomePage({}) {
       {/* Início do componente */}
       <div className="fixed top-4 left-4 z-1 rounded-md bg-neutral-100 w-1/4 h-content p-4 flex flex-col gap-4 ">
         <div className="bg-neutral-300">Nome</div>
-        <div className="bg-neutral-300">
-          <SearchBar emptyMessage="Procure um item..." />
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <SearchBar
+              emptyMessage="Procure um item..."
+              inputClassName="h-12 border-1 border-gray-300 bg-white"
+            />
+          </div>
+          <div className="bg-white size-12 rounded-md border-1 border-gray-300"></div>
         </div>
       </div>
 

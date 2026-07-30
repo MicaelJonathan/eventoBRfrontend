@@ -13,12 +13,18 @@ interface searchBarProps {
   placeholder?: string;
   emptyMessage?: string;
   data?: string[];
+  inputClassName?: string;
 }
 
-export default function SearchBar({ placeholder, emptyMessage, data }: searchBarProps) {
+export default function SearchBar({
+  placeholder,
+  emptyMessage,
+  data,
+  inputClassName,
+}: searchBarProps) {
   return (
     <Combobox items={data}>
-      <ComboboxInput placeholder={placeholder} className={'h-12'} />
+      <ComboboxInput placeholder={placeholder} className={inputClassName} />
       <ComboboxContent>
         <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
         <ComboboxList>
