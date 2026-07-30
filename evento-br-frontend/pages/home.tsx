@@ -8,6 +8,8 @@ import SearchBar from '@/components/ui/searchBar';
 import Image from 'next/image';
 import forro from '@/public/forro.png';
 import logoBorali from '@/public/logoBorali.webp';
+import { SlidersHorizontal } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
   ssr: false,
@@ -36,11 +38,17 @@ export default function HomePage({}) {
         <div className="flex gap-4">
           <div className="flex-1">
             <SearchBar
-              emptyMessage="Procure um item..."
+              placeholder="Procure um evento..."
+              emptyMessage="Não há eventos com esse nome..."
               inputClassName="h-12 border-1 border-gray-300 bg-white"
             />
           </div>
-          <div className="bg-white size-12 rounded-md border-1 border-gray-300"></div>
+          <Button
+            variant={'ghost'}
+            className="bg-white size-12 rounded-md border-1 border-gray-300 flex items-center justify-center"
+          >
+            <SlidersHorizontal />
+          </Button>
         </div>
 
         <div>
