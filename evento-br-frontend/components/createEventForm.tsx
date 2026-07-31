@@ -13,7 +13,7 @@ export default function CreateEventForm({ onCancel }: CreateEventFormProps) {
   return (
     <Card
       size="default"
-      className="mx-auto w-full max-w-4xl max-h-fit bg-primaryui text-(--whiteui)"
+      className="mx-auto max-w-4x1 w-full max-h-fit bg-primaryui text-(--whiteui)"
     >
       <CardHeader>
         <h3 className="font-semibold">Criar evento</h3>
@@ -23,23 +23,39 @@ export default function CreateEventForm({ onCancel }: CreateEventFormProps) {
           <div className="space-y-4">
             <div>
               <Label htmlFor="name">Nome do evento</Label>
-              <Input id="name" placeholder="Digite o nome do evento" {...register('name')} />
+              <Input id="name" placeholder="Ex: Feira de Tecnologia" {...register('name')} />
             </div>
             <div>
               <Label htmlFor="description">Descrição do evento</Label>
-              <Input id="description" placeholder="Digite a descrição do evento" {...register('description')} />
+              <Input
+                id="description"
+                placeholder="Ex: Uma feira de tecnologia com palestras e workshops"
+                {...register('description')}
+              />
             </div>
             <div>
               <Label htmlFor="date">Data do evento</Label>
               <Input id="date" type="date" {...register('date')} />
             </div>
             <div>
-              <Label htmlFor="location">Local do evento "mudar"</Label>
-              <Input id="location" placeholder="Digite o local do evento" {...register('location')} />
+              <Label htmlFor="time">Horário do evento</Label>
+              <Input id="time" type="time" {...register('time')} />
+            </div>
+            <div>
+              <Label htmlFor="location">Local do evento</Label>
+              <Input
+                id="location"
+                placeholder="Ex: Centro de Convenções - Centro"
+                {...register('location')}
+              />
+            </div>
+            <div>
+              <Label htmlFor="capacity">Número de esperado participantes</Label>
+              <Input id="capacity" type="number" placeholder="Ex: 100" {...register('capacity')} />
             </div>
           </div>
           <div className="mt-4 flex gap-2">
-            <Button type="submit">Create Event</Button>
+            <Button type="submit">Criar evento</Button>
             <Button onClick={() => onCancel?.()}>Cancelar</Button>
           </div>
         </form>
