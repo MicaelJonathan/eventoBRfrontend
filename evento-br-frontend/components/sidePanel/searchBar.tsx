@@ -1,5 +1,5 @@
-import { Input } from '../ui/input';
 import { Search } from 'lucide-react';
+import { InputGroup, InputGroupInput, InputGroupAddon } from '../ui/input-group';
 
 type SearchBarProps = {
   className?: string;
@@ -8,9 +8,13 @@ type SearchBarProps = {
 
 export default function SearchBar({ className, placeHolder }: SearchBarProps) {
   return (
-    <div className="relative">
-      <Search className="absolute right-2 top-[5] pointer-events-none size-5 text-muted-foreground" />
-      <Input className={className} placeholder={placeHolder} />
-    </div>
+    <>
+      <InputGroup className={className}>
+        <InputGroupInput placeholder={placeHolder} />
+        <InputGroupAddon>
+          <Search />
+        </InputGroupAddon>
+      </InputGroup>
+    </>
   );
 }
