@@ -7,19 +7,22 @@ import { Button } from '@/components/ui/button';
 
 export default function SidePanel() {
   return (
-    <div className="fixed top-4 left-4 z-1 rounded-md bg-neutral-100 w-1/4 h-content p-4 flex flex-col gap-4 ">
+    <div className="fixed top-4 left-4 z-1 rounded-md bg-neutral-100 w-1/4 h-content p-4 flex flex-col gap-4 shadow-md ">
       <Header className="mx-auto w-1/3 flex justify-center" />
 
       <div className="flex gap-4">
         <div className="flex-1">
-          <SearchBar placeHolder="Procure um evento..." />
+          <SearchBar
+            placeHolder="Procure um evento..."
+            className="border-1 rounded-md border-gray-300 bg-white"
+          />
         </div>
-        <Button
+        {/* <Button
           variant={'ghost'}
           className="bg-white size-12 rounded-md border-1 border-gray-300 flex items-center justify-center"
         >
           <SlidersHorizontal />
-        </Button>
+        </Button> */}
       </div>
 
       <div>
