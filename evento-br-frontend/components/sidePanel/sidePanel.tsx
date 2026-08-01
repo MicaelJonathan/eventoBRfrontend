@@ -20,8 +20,13 @@ export default function SidePanel() {
 
       <div className="flex flex-col gap-2">
         <h3>Pŕoximos Eventos</h3>
-        <ul>
-          <EventCard />
+        <ul className="flex flex-col gap-2">
+          <li>
+            <EventCard />
+          </li>
+          <li>
+            <EventCard />
+          </li>
         </ul>
       </div>
     </div>
