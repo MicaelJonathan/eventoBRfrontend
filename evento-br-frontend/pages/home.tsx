@@ -4,7 +4,7 @@ import '../app/globals.css';
 import dynamic from 'next/dynamic';
 import AuthDialog from '@/components/auth/authDialog';
 import { defaultMapValues } from '@/lib/constants';
-import SidePanel from '@/components/ui/sidePanel';
+import SidePanel from '@/components/sidePanel/sidePanel';
 
 const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
   ssr: false,

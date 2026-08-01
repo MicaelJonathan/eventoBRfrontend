@@ -1,16 +1,14 @@
 import SearchBar from '@/components/ui/searchBar';
 import Image from 'next/image';
+import Header from './header';
 import forro from '@/public/forro.png';
-import logoBorali from '@/public/logoBorali.webp';
 import { SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function SidePanel() {
   return (
     <div className="fixed top-4 left-4 z-1 rounded-md bg-neutral-100 w-1/4 h-content p-4 flex flex-col gap-4 ">
-      <div className="mx-auto w-1/3 flex justify-center">
-        <Image src={logoBorali} alt="" />
-      </div>
+      <Header className="mx-auto w-1/3 flex justify-center" />
 
       <div className="flex gap-4">
         <div className="flex-1">
