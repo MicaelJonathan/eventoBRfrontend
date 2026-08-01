@@ -13,20 +13,23 @@ interface searchBarProps {
   placeholder?: string;
   emptyMessage?: string;
   data?: string[];
+  inputClassName?: string;
 }
 
-export default function SearchBar({ placeholder, emptyMessage, data }: searchBarProps) {
+export default function SearchBar({
+  placeholder,
+  emptyMessage,
+  data,
+  inputClassName,
+}: searchBarProps) {
   return (
     <Combobox items={data}>
-      <ComboboxInput
-        placeholder={placeholder}
-        className={'bg-primaryui w-lg h-16 text-(--whiteui)'}
-      />
-      <ComboboxContent className={'bg-primaryui w-lg text-(--whiteui)'}>
-        <ComboboxEmpty className={'h-12 text-(--grayui)'}>{emptyMessage}</ComboboxEmpty>
+      <ComboboxInput placeholder={placeholder} className={inputClassName} />
+      <ComboboxContent>
+        <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
         <ComboboxList>
           {(item) => (
-            <ComboboxItem key={item} value={item} className={'h-12 data-highlighted:bg-(--grayui)'}>
+            <ComboboxItem key={item} value={item}>
               {item}
             </ComboboxItem>
           )}

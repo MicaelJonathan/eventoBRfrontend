@@ -27,6 +27,9 @@ export default function MapComponent({ latitude, longitude, className }: MapComp
     <MapContainer
       center={centerPosition}
       zoom={defaultMapValues.zoom}
+      maxBounds={defaultMapValues.bounds}
+      minZoom={defaultMapValues.minZoom}
+      maxZoom={defaultMapValues.maxZoom}
       zoomControl={false}
       style={{ width: '100vw', height: '100vh' }}
       className={className}
