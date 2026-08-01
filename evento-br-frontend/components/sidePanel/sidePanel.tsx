@@ -1,7 +1,7 @@
-import SearchBar from '@/components/ui/searchBar';
 import Image from 'next/image';
 import Header from './header';
 import forro from '@/public/forro.png';
+import SearchBar from './searchBar';
 import { SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -12,11 +12,7 @@ export default function SidePanel() {
 
       <div className="flex gap-4">
         <div className="flex-1">
-          <SearchBar
-            placeholder="Procure um evento..."
-            emptyMessage="Não há eventos com esse nome..."
-            inputClassName="h-12 border-1 border-gray-300 bg-white"
-          />
+          <SearchBar placeHolder="Procure um evento..." />
         </div>
         <Button
           variant={'ghost'}
