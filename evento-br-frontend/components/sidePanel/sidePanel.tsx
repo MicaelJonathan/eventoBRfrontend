@@ -1,8 +1,7 @@
-import Image from 'next/image';
 import Header from './header';
-import forro from '@/public/forro.png';
 import SearchBar from './searchBar';
 import FilterButton from './filterButton';
+import EventCard from './eventCard';
 
 export default function SidePanel() {
   return (
@@ -19,20 +18,10 @@ export default function SidePanel() {
         <FilterButton className="bg-white size-10 rounded-md border-1 border-gray-300 flex items-center justify-center" />
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <h3>Pŕoximos Eventos</h3>
         <ul>
-          <li className="bg-white flex items-center gap-3 border-1 border-gray-300 rounded-md">
-            <div className="relative size-24 overflow-hidden rounded-md shrink-0">
-              <Image src={forro} alt="" fill className="object-cover" />
-            </div>
-            <div className="flex flex-col">
-              <h4>Forró no Coreto</h4>
-              <span>Coreto da Praça de Edvaldo Motta</span>
-              <span>24 Mai. 20:00</span>
-              <span>250+</span>
-            </div>
-          </li>
+          <EventCard />
         </ul>
       </div>
     </div>
