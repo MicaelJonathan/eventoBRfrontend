@@ -13,13 +13,14 @@ export default function AuthDialog() {
       <div className="fixed top-8 right-8 z-1 flex gap-3">
         <Button
           onClick={() => setSignInOpen(true)}
-          className="h-16 px-10 rounded-2xl bg-primaryui text-(--whiteui) hover:bg-primaryui/80"
+          variant={'outline'}
+          className="h-14 px-8 rounded-2xl text-md font-bold"
         >
-          Login
+          Entrar
         </Button>
         <Button
           onClick={() => setSignUpOpen(true)}
-          className="h-16 px-10 rounded-2xl bg-primaryui text-(--whiteui) hover:bg-primaryui/80"
+          className="h-14 px-8 rounded-2xl bg-purple-700 text-md font-bold hover:bg-purple-900 "
         >
           Cadastro
         </Button>
