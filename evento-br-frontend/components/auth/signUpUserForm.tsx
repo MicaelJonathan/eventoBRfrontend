@@ -1,11 +1,11 @@
 'use client';
 
-// import { useState } from 'react';
-import { Card, CardHeader, CardContent } from './card';
-import { Label } from './label';
-import { Input } from './input';
-import { Button } from './button';
+import { Card, CardHeader, CardContent } from '../ui/card';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 import * as z from 'zod';
 
 type SignUpUserFormProps = {
@@ -17,7 +17,10 @@ type UserDataProps = {
   email: string;
   password: string;
   phone: string;
-  // identifier: string;
+  city: string;
+  state: string;
+  accountType: 0 | 1;
+  documentNumber: string | null;
 };
 
 const userDataSchema = z.object({
@@ -35,27 +38,31 @@ const userDataSchema = z.object({
   phone: z.string().regex(/^\d{2}9\d{8}$/, {
     message: 'O telefone deve estar no formato (00) 00000-0000',
   }),
+
+  city: z.string(),
+  state: z.string(),
+  accountType: z.number(),
+  documentNumber: z.string(),
 });
 
 const handleSave = (data: UserDataProps) => {
+  data.accountType = 0;
   const safeParsedData = userDataSchema.safeParse(data);
   if (safeParsedData.success) {
     console.log(safeParsedData.data);
   } else {
     console.log(safeParsedData.error);
   }
+
+  axios.post('https://eventobrbackend.onrender.com/api/User/register', safeParsedData.data);
 };
 
 export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
-  // const [isLegalPerson, setIsLegalPerson] = useState(false);
   const { register, handleSubmit } = useForm<UserDataProps>();
 
   return (
-    <Card
-      size="default"
-      className="mx-auto w-full max-w-4xl max-h-fit bg-primaryui text-(--whiteui)"
-    >
-      <CardHeader>Criar uma nova conta</CardHeader>
+    <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit">
+      <CardHeader className="font-semibold">Criar uma nova conta</CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleSave)}>
           <div className="flex flex-col gap-4">
@@ -79,35 +86,41 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Label htmlFor="telefone">Telefone</Label>
+              <Label htmlFor="phone">Telefone</Label>
               <Input {...register('phone')} type="tel" placeholder="(00) 00000-0000" />
             </div>
 
-            {/* <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="documento">{isLegalPerson ? 'CNPJ' : 'CPF'}</Label>
-                <Button
-                  type="button"
-                  size="sm"
-                  aria-pressed={isLegalPerson}
-                  onClick={() => setIsLegalPerson((prev) => !prev)}
-                >
-                  {isLegalPerson
-                    ? 'Cadastrar como pessoa física'
-                    : 'Cadastrar como pessoa jurídica'}
-                </Button>
-              </div>
-              <Input
-                {...register('identifier')}
-                type="text"
-                placeholder={isLegalPerson ? '00.000.000/0000-00' : '000.000.000-00'}
-              />
-            </div> */}
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="state">Estado</Label>
+              <Input {...register('state')} placeholder="Paraíba" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="city">Cidade</Label>
+              <Input {...register('city')} placeholder="Patos" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="accountType">Tipo da Conta</Label>
+              <Input {...register('accountType')} placeholder="0 ou 1" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="documentNumber">Número do Documento</Label>
+              <Input {...register('documentNumber')} placeholder="000" />
+            </div>
+
             <div className="flex gap-2">
-              <Button type="submit" variant={'outline'} className="text-gray-700">
+              <Button type="submit" variant={'default'} size={'lg'} className="font-semibold">
                 Criar Conta
               </Button>
-              <Button type="button" onClick={() => onCancel?.()}>
+              <Button
+                onClick={() => onCancel?.()}
+                type="button"
+                variant={'secondary'}
+                size={'lg'}
+                className={'font-semibold'}
+              >
                 Cancelar
               </Button>
             </div>

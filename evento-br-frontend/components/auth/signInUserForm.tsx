@@ -1,9 +1,10 @@
-import { Label } from './label';
-import { Input } from './input';
-import { Button } from './button';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
-import { Card, CardHeader, CardContent } from './card';
+import { Card, CardHeader, CardContent } from '../ui/card';
 import * as z from 'zod';
+import axios from 'axios';
 
 type SignInUserFormProps = {
   onCancel?: () => void;
@@ -24,8 +25,11 @@ const userDataSchema = z.object({
 
 const handleLogin = (data: userDataProps) => {
   const safeParsedData = userDataSchema.safeParse(data);
+  console.log(safeParsedData.data);
   if (safeParsedData.success) {
-    console.log(safeParsedData.data);
+    axios
+      .post('https://eventobrbackend.onrender.com/api/User/login', safeParsedData.data)
+      .then((response) => console.log(response.data));
   } else {
     console.log(safeParsedData.error);
   }
@@ -35,11 +39,8 @@ export default function SignInUserForm({ onCancel }: SignInUserFormProps) {
   const { register, handleSubmit } = useForm<userDataProps>();
 
   return (
-    <Card
-      size="default"
-      className="mx-auto w-full max-w-4xl max-h-fit bg-primaryui text-(--whiteui)"
-    >
-      <CardHeader>Entrar na sua conta</CardHeader>
+    <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit ">
+      <CardHeader className="font-semibold">Entrar na sua conta</CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="flex flex-col gap-4">
@@ -73,8 +74,17 @@ export default function SignInUserForm({ onCancel }: SignInUserFormProps) {
             </div>
           </div>
           <div className="flex gap-2 mt-6">
-            <Button type="submit">Entrar</Button>
-            <Button onClick={() => onCancel?.()}>Cancelar</Button>
+            <Button type="submit" variant={'default'} size={'lg'} className={'font-semibold'}>
+              Entrar
+            </Button>
+            <Button
+              onClick={() => onCancel?.()}
+              variant={'secondary'}
+              size={'lg'}
+              className={'font-semibold'}
+            >
+              Cancelar
+            </Button>
           </div>
         </form>
       </CardContent>
