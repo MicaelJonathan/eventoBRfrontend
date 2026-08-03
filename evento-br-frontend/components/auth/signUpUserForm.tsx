@@ -61,11 +61,8 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
   const { register, handleSubmit } = useForm<UserDataProps>();
 
   return (
-    <Card
-      size="default"
-      className="mx-auto w-full max-w-4xl max-h-fit bg-primaryui text-(--whiteui)"
-    >
-      <CardHeader>Criar uma nova conta</CardHeader>
+    <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit">
+      <CardHeader className="font-semibold">Criar uma nova conta</CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleSave)}>
           <div className="flex flex-col gap-4">
@@ -114,10 +111,16 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
             </div>
 
             <div className="flex gap-2">
-              <Button type="submit" variant={'outline'} className="text-gray-700">
+              <Button type="submit" variant={'default'} size={'lg'} className="font-semibold">
                 Criar Conta
               </Button>
-              <Button type="button" onClick={() => onCancel?.()}>
+              <Button
+                onClick={() => onCancel?.()}
+                type="button"
+                variant={'secondary'}
+                size={'lg'}
+                className={'font-semibold'}
+              >
                 Cancelar
               </Button>
             </div>
