@@ -5,6 +5,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 import * as z from 'zod';
 
 type SignUpUserFormProps = {
@@ -16,6 +17,10 @@ type UserDataProps = {
   email: string;
   password: string;
   phone: string;
+  city: string;
+  state: string;
+  accountType: 0 | 1;
+  documentNumber: string | null;
 };
 
 const userDataSchema = z.object({
@@ -33,15 +38,23 @@ const userDataSchema = z.object({
   phone: z.string().regex(/^\d{2}9\d{8}$/, {
     message: 'O telefone deve estar no formato (00) 00000-0000',
   }),
+
+  city: z.string(),
+  state: z.string(),
+  accountType: z.number(),
+  documentNumber: z.string(),
 });
 
 const handleSave = (data: UserDataProps) => {
+  data.accountType = 0;
   const safeParsedData = userDataSchema.safeParse(data);
   if (safeParsedData.success) {
     console.log(safeParsedData.data);
   } else {
     console.log(safeParsedData.error);
   }
+
+  axios.post('https://eventobrbackend.onrender.com/api/User/register', safeParsedData.data);
 };
 
 export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
@@ -73,8 +86,28 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Label htmlFor="telefone">Telefone</Label>
+              <Label htmlFor="phone">Telefone</Label>
               <Input {...register('phone')} type="tel" placeholder="(00) 00000-0000" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="state">Estado</Label>
+              <Input {...register('state')} placeholder="Paraíba" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="city">Cidade</Label>
+              <Input {...register('city')} placeholder="Patos" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="accountType">Tipo da Conta</Label>
+              <Input {...register('accountType')} placeholder="0 ou 1" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="documentNumber">Número do Documento</Label>
+              <Input {...register('documentNumber')} placeholder="000" />
             </div>
 
             <div className="flex gap-2">

@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
 import { Card, CardHeader, CardContent } from '../ui/card';
 import * as z from 'zod';
+import axios from 'axios';
 
 type SignInUserFormProps = {
   onCancel?: () => void;
@@ -24,8 +25,11 @@ const userDataSchema = z.object({
 
 const handleLogin = (data: userDataProps) => {
   const safeParsedData = userDataSchema.safeParse(data);
+  console.log(safeParsedData.data);
   if (safeParsedData.success) {
-    console.log(safeParsedData.data);
+    axios
+      .post('https://eventobrbackend.onrender.com/api/User/login', safeParsedData.data)
+      .then((response) => console.log(response.data));
   } else {
     console.log(safeParsedData.error);
   }
