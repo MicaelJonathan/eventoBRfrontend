@@ -1,6 +1,5 @@
 'use client';
 
-// import { useState } from 'react';
 import { Card, CardHeader, CardContent } from '../ui/card';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
@@ -17,7 +16,6 @@ type UserDataProps = {
   email: string;
   password: string;
   phone: string;
-  // identifier: string;
 };
 
 const userDataSchema = z.object({
@@ -47,15 +45,11 @@ const handleSave = (data: UserDataProps) => {
 };
 
 export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
-  // const [isLegalPerson, setIsLegalPerson] = useState(false);
   const { register, handleSubmit } = useForm<UserDataProps>();
 
   return (
-    <Card
-      size="default"
-      className="mx-auto w-full max-w-4xl max-h-fit bg-primaryui text-(--whiteui)"
-    >
-      <CardHeader>Criar uma nova conta</CardHeader>
+    <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit">
+      <CardHeader className="font-semibold">Criar uma nova conta</CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleSave)}>
           <div className="flex flex-col gap-4">
@@ -83,31 +77,17 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
               <Input {...register('phone')} type="tel" placeholder="(00) 00000-0000" />
             </div>
 
-            {/* <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="documento">{isLegalPerson ? 'CNPJ' : 'CPF'}</Label>
-                <Button
-                  type="button"
-                  size="sm"
-                  aria-pressed={isLegalPerson}
-                  onClick={() => setIsLegalPerson((prev) => !prev)}
-                >
-                  {isLegalPerson
-                    ? 'Cadastrar como pessoa física'
-                    : 'Cadastrar como pessoa jurídica'}
-                </Button>
-              </div>
-              <Input
-                {...register('identifier')}
-                type="text"
-                placeholder={isLegalPerson ? '00.000.000/0000-00' : '000.000.000-00'}
-              />
-            </div> */}
             <div className="flex gap-2">
-              <Button type="submit" variant={'outline'} className="text-gray-700">
+              <Button type="submit" variant={'default'} size={'lg'} className="font-semibold">
                 Criar Conta
               </Button>
-              <Button type="button" onClick={() => onCancel?.()}>
+              <Button
+                onClick={() => onCancel?.()}
+                type="button"
+                variant={'secondary'}
+                size={'lg'}
+                className={'font-semibold'}
+              >
                 Cancelar
               </Button>
             </div>
