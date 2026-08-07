@@ -1,8 +1,8 @@
-import { Label } from './ui/label';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
-import { Card, CardHeader, CardContent } from './ui/card';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 type CreateEventFormProps = {
   onCancel?: () => void;
@@ -13,7 +13,7 @@ export default function CreateEventForm({ onCancel }: CreateEventFormProps) {
   return (
     <Card
       size="default"
-      className="mx-auto max-w-4x1 w-full max-h-fit bg-primaryui text-(--whiteui)"
+      className="mx-auto max-w-4x1 w-full max-h-fit"
     >
       <CardHeader>
         <h3 className="font-semibold">Criar evento</h3>
