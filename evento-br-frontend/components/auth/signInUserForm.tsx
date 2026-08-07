@@ -7,6 +7,7 @@ import * as z from 'zod';
 import axios from 'axios';
 
 type SignInUserFormProps = {
+  onSignInSuccess: () => void;
   onCancel?: () => void;
 };
 
@@ -23,20 +24,28 @@ const userDataSchema = z.object({
     .max(20, { message: 'A senha deve ter no máximo 20 caracteres' }),
 });
 
-const handleLogin = (data: userDataProps) => {
-  const safeParsedData = userDataSchema.safeParse(data);
-  console.log(safeParsedData.data);
-  if (safeParsedData.success) {
-    axios
-      .post('https://eventobrbackend.onrender.com/api/User/login', safeParsedData.data)
-      .then((response) => console.log(response.data));
-  } else {
-    console.log(safeParsedData.error);
-  }
-};
-
-export default function SignInUserForm({ onCancel }: SignInUserFormProps) {
+export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUserFormProps) {
   const { register, handleSubmit } = useForm<userDataProps>();
+
+  const handleLogin = async (data: userDataProps) => {
+    const safeParsedData = userDataSchema.safeParse(data);
+    console.log('Dados enviados:' + safeParsedData.data);
+
+    if (safeParsedData.success) {
+      try {
+        await axios
+          .post('https://eventobrbackend.onrender.com/api/User/login', safeParsedData.data)
+          .then((response) => localStorage.setItem('token', response.data.token));
+        onSignInSuccess();
+
+        console.log('Login realizado com sucesso!');
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      console.log(safeParsedData.error);
+    }
+  };
 
   return (
     <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit ">

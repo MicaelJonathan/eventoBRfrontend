@@ -16,6 +16,53 @@ interface defaultMapValuesProps {
   minZoom: number;
   maxZoom: number;
 }
+// Eventos de props para o calendario, Kayke por favor remova os mesmos depois.
+interface eventDebugProps {
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  capacity: number;
+}
+
+export const eventDebug: eventDebugProps = {
+  title: 'Evento de Teste',
+  description: 'Descrição do evento de teste',
+  date: '2026-07-29',
+  time: '19:00',
+  location: 'Sala de Eventos',
+  capacity: 100
+};
+
+export const eventDebug2: eventDebugProps = {
+  title: 'Evento de Teste 2',
+  description: 'Descrição do evento de teste 2',
+  date: '2026-07-25',
+  time: '20:00',
+  location: 'Auditório Principal',
+  capacity: 200
+};
+
+export const eventDebugSame1: eventDebugProps = {
+  title: 'Evento de Teste 3',
+  description: 'Descrição do evento de teste 2',
+  date: '2026-07-25',
+  time: '21:00',
+  location: 'Auditório Principal',
+  capacity: 200
+};
+
+export const eventDebugSame2: eventDebugProps = {
+  title: 'Evento de Teste 4',
+  description: 'Descrição do evento de teste',
+  date: '2026-07-29',
+  time: '22:00',
+  location: 'Sala de Eventos',
+  capacity: 100
+};
+
+//-------------------------------
 
 export const defaultMapValues: defaultMapValuesProps = {
   lat: -7.02556,

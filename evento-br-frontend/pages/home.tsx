@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic';
 import AuthDialog from '@/components/auth/authDialog';
 import { defaultMapValues } from '@/lib/constants';
 import SidePanel from '@/components/sidePanel/sidePanel';
+import { useEffect, useState } from 'react';
+import LogOut from '@/components/auth/logOut';
 
 const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
   ssr: false,
@@ -16,6 +18,15 @@ const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
 });
 
 export default function HomePage({}) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoggedIn(Boolean(token));
+  }, []);
+
   return (
     <div className="relative min-h-screen">
       <MapComponent
@@ -26,7 +37,14 @@ export default function HomePage({}) {
 
       <SidePanel />
 
-      <AuthDialog />
+      {!isLoggedIn && <AuthDialog onSignInSuccess={() => setIsLoggedIn(true)} />}
+      {isLoggedIn && (
+        <LogOut
+          onSuccess={() => {
+            setIsLoggedIn(false);
+          }}
+        />
+      )}
     </div>
   );
 }
