@@ -23,13 +23,20 @@ const userDataSchema = z.object({
     .max(20, { message: 'A senha deve ter no máximo 20 caracteres' }),
 });
 
-const handleLogin = (data: userDataProps) => {
+const handleLogin = async (data: userDataProps) => {
   const safeParsedData = userDataSchema.safeParse(data);
-  console.log(safeParsedData.data);
+  console.log('Dados enviados:' + safeParsedData.data);
+
   if (safeParsedData.success) {
-    axios
-      .post('https://eventobrbackend.onrender.com/api/User/login', safeParsedData.data)
-      .then((response) => console.log(response.data));
+    try {
+      await axios
+        .post('https://eventobrbackend.onrender.com/api/User/login', safeParsedData.data)
+        .then((response) => localStorage.setItem('token', response.data.token));
+
+      console.log('Login realizado com sucesso!');
+    } catch (e) {
+      console.error(e);
+    }
   } else {
     console.log(safeParsedData.error);
   }
