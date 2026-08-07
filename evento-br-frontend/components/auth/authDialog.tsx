@@ -4,7 +4,11 @@ import SignUpUserForm from '@/components/auth/signUpUserForm';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useState } from 'react';
 
-export default function AuthDialog() {
+type AuthDialogProps = {
+  onSignInSuccess: () => void;
+};
+
+export default function AuthDialog({ onSignInSuccess }: AuthDialogProps) {
   const [signInOpen, setSignInOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
 
@@ -28,7 +32,7 @@ export default function AuthDialog() {
 
       <Dialog open={signInOpen} onOpenChange={setSignInOpen}>
         <DialogContent className="p-0 sm:max-w-md">
-          <SignInUserForm onCancel={() => setSignInOpen(false)} />
+          <SignInUserForm onSignInSuccess={onSignInSuccess} onCancel={() => setSignInOpen(false)} />
         </DialogContent>
       </Dialog>
 
