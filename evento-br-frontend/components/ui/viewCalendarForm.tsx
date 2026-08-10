@@ -68,7 +68,7 @@ export default function CreateCalendarForm({
           onSelect={setSelected}
           modifiers={{ marked: markedDates }}
           modifiersClassNames={{
-            marked: 'bg-primaryui text-(--whiteui) rounded-full font-semibold',
+            marked: 'rounded-full font-semibold',
           }}
           className="mx-auto"
         />
