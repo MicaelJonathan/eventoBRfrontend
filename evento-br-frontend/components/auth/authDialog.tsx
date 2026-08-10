@@ -38,7 +38,10 @@ export default function AuthDialog({ onSignInSuccess }: AuthDialogProps) {
 
       <Dialog open={signUpOpen} onOpenChange={setSignUpOpen}>
         <DialogContent className="p-0 sm:max-w-md">
-          <SignUpUserForm onCancel={() => setSignUpOpen(false)} />
+          <SignUpUserForm
+            onSignUpSuccess={() => setSignUpOpen(false)}
+            onCancel={() => setSignUpOpen(false)}
+          />
         </DialogContent>
       </Dialog>
     </div>

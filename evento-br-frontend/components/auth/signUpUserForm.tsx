@@ -8,9 +8,10 @@ import { useSignUp } from '@/hooks/useSignUp';
 
 type SignUpUserFormProps = {
   onCancel?: () => void;
+  onSignUpSuccess: () => void;
 };
 
-export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
+export default function SignUpUserForm({ onCancel, onSignUpSuccess }: SignUpUserFormProps) {
   const {
     register,
     handleSubmit,
@@ -18,7 +19,7 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
     serverError,
     isSubmitting,
     formState: { errors },
-  } = useSignUp();
+  } = useSignUp(onSignUpSuccess);
 
   return (
     <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit">

@@ -4,23 +4,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { registerUser } from '@/services/authService';
 import { UserSignUpProps, UserSignUpSchema } from '@/schemas/userSignUpSchema';
 
-export function useSignUp() {
+export function useSignUp(onSignUpSuccess: () => void) {
   const [serverError, setServerError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<UserSignUpProps>({ resolver: zodResolver(UserSignUpSchema) });
 
-  const handleRegister = (data: UserSignUpProps) => {
-    console.log('Passou aqui!');
+  const handleRegister = async (data: UserSignUpProps) => {
     setServerError(null);
     setIsSubmitting(true);
 
     try {
-      registerUser({
+      await registerUser({
         ...data,
         accountType: data.accountType ?? 0,
         documentNumber: data.documentNumber || '000',
       });
+      onSignUpSuccess();
     } catch (e) {
       setServerError('Informações do cadastro não preenchidas corretamente');
       console.error(e);
