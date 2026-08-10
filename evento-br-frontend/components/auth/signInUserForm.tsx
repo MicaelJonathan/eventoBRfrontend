@@ -2,9 +2,9 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
-import { api } from '@/lib/api';
 import { Card, CardHeader, CardContent } from '../ui/card';
 import { userSignInSchema, userSignInProps } from '@/schemas/userSignInSchema';
+import { loginUser } from '@/services/authService';
 
 type SignInUserFormProps = {
   onSignInSuccess: () => void;
@@ -20,9 +20,7 @@ export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUser
 
     if (safeParsedData.success) {
       try {
-        await api
-          .post('/User/login', safeParsedData.data)
-          .then((response) => localStorage.setItem('token', response.data.token));
+        await loginUser(data);
         onSignInSuccess();
 
         console.log('Login realizado com sucesso!');
