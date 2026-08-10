@@ -10,6 +10,9 @@ export default function CreateSettingsForm({ onCancel }: CreateSettingsFormProps
       <DialogHeader>
         <DialogTitle>Configurações</DialogTitle>
       </DialogHeader>
+      <div className="space-y-4">
+        <p>Em construção...</p>
+      </div>
     </DialogContent>
     );
 }
