@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-export const userSignInSchema = z.object({
+export const UserSignInSchema = z.object({
   email: z.email(),
   password: z
     .string()
@@ -8,4 +8,4 @@ export const userSignInSchema = z.object({
     .max(20, { message: 'A senha deve ter no máximo 20 caracteres' }),
 });
 
-export type userSignInProps = z.infer<typeof userSignInSchema>;
+export type UserSignInProps = z.infer<typeof UserSignInSchema>;

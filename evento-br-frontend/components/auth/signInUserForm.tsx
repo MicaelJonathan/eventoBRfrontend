@@ -1,10 +1,8 @@
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { useForm } from 'react-hook-form';
 import { Card, CardHeader, CardContent } from '../ui/card';
-import { userSignInSchema, userSignInProps } from '@/schemas/userSignInSchema';
-import { loginUser } from '@/services/authService';
+import { useSignIn } from '@/hooks/useSignIn';
 
 type SignInUserFormProps = {
   onSignInSuccess: () => void;
@@ -12,25 +10,7 @@ type SignInUserFormProps = {
 };
 
 export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUserFormProps) {
-  const { register, handleSubmit } = useForm<userSignInProps>();
-
-  const handleLogin = async (data: userSignInProps) => {
-    const safeParsedData = userSignInSchema.safeParse(data);
-    console.log('Dados enviados:' + safeParsedData.data);
-
-    if (safeParsedData.success) {
-      try {
-        await loginUser(data);
-        onSignInSuccess();
-
-        console.log('Login realizado com sucesso!');
-      } catch (e) {
-        console.error(e);
-      }
-    } else {
-      console.log(safeParsedData.error);
-    }
-  };
+  const { register, handleSubmit, handleLogin } = useSignIn(onSignInSuccess);
 
   return (
     <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit ">
