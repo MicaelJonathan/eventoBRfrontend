@@ -5,7 +5,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import { api } from '@/lib/api';
 import * as z from 'zod';
 
 type SignUpUserFormProps = {
@@ -54,7 +54,7 @@ const handleSave = (data: UserDataProps) => {
     console.log(safeParsedData.error);
   }
 
-  axios.post('https://eventobrbackend.onrender.com/api/User/register', safeParsedData.data);
+  api.post('/User/register', safeParsedData.data);
 };
 
 export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
