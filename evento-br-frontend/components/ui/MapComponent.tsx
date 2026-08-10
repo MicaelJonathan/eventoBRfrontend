@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl  } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { defaultMapValues } from '@/lib/constants';
@@ -42,6 +42,7 @@ export default function MapComponent({ latitude, longitude, className }: MapComp
         }
       }}
     >
+      <ZoomControl position="bottomright" />
       {}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
