@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Header from './header';
 import SearchBar from './searchBar';
 import FilterButton from './filterButton';
@@ -8,13 +9,11 @@ import { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import CreateEventDialog from '@/components/ui/createEventForm';
 import CalendarDialog from '@/components/ui/viewCalendarForm';
-import CreateProfileView from '@/components/ui/createProfileViewForm';
 import CreateSettingsView from '@/components/ui/createSettingsForm';
 
 export default function SidePanel() {
   const [createEventOpen, setCreateEventOpen] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [userOpen, setUserOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   return (
     <div className="fixed top-4 left-4 z-1 rounded-md bg-neutral-100 w-1/4 h-content p-4 flex flex-col gap-4 shadow-md ">
@@ -46,11 +45,12 @@ export default function SidePanel() {
           <Calendar className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
         </Button>
         <Button
-          onClick={() => setUserOpen(true)}
           variant="outline"
           className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
         >
-          <User className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
+          <Link href="/perfil">
+            <User className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
+          </Link>
         </Button>
         <Button
           onClick={() => setSettingsOpen(true)}
@@ -70,12 +70,6 @@ export default function SidePanel() {
       <Dialog open={calendarOpen} onOpenChange={setCalendarOpen}>
         <DialogContent className="p-0 sm:max-w-md">
           <CalendarDialog onCancel={() => setCalendarOpen(false)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={userOpen} onOpenChange={setUserOpen}>
-        <DialogContent className="p-0 sm:max-w-md">
-          <CreateProfileView onCancel={() => setUserOpen(false)} />
         </DialogContent>
       </Dialog>
 
