@@ -4,76 +4,38 @@ import { Card, CardHeader, CardContent } from '../ui/card';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import * as z from 'zod';
+import { useSignUp } from '@/hooks/useSignUp';
 
 type SignUpUserFormProps = {
   onCancel?: () => void;
 };
 
-type UserDataProps = {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  city: string;
-  state: string;
-  accountType: 0 | 1;
-  documentNumber: string | null;
-};
-
-const userDataSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: 'O nome deve ter no mínimo 3 caracteres' })
-    .max(100, { message: 'O nome deve ter no máximo 100 caracteres' }),
-
-  email: z.email(),
-  password: z
-    .string()
-    .min(8, { message: 'A senha deve ter no mínimo 8 caracteres' })
-    .max(20, { message: 'A senha deve ter no máximo 20 caracteres' }),
-
-  phone: z.string().regex(/^\d{2}9\d{8}$/, {
-    message: 'O telefone deve estar no formato (00) 00000-0000',
-  }),
-
-  city: z.string(),
-  state: z.string(),
-  accountType: z.number(),
-  documentNumber: z.string(),
-});
-
-const handleSave = (data: UserDataProps) => {
-  data.accountType = 0;
-  const safeParsedData = userDataSchema.safeParse(data);
-  if (safeParsedData.success) {
-    console.log(safeParsedData.data);
-  } else {
-    console.log(safeParsedData.error);
-  }
-
-  axios.post('https://eventobrbackend.onrender.com/api/User/register', safeParsedData.data);
-};
-
 export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
-  const { register, handleSubmit } = useForm<UserDataProps>();
+  const {
+    register,
+    handleSubmit,
+    handleRegister,
+    serverError,
+    isSubmitting,
+    formState: { errors },
+  } = useSignUp();
 
   return (
     <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit">
       <CardHeader className="font-semibold">Criar uma nova conta</CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(handleSave)}>
+        <form onSubmit={handleSubmit(handleRegister)}>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <Label htmlFor="nome">Nome</Label>
               <Input {...register('name')} type="text" placeholder="Seu nome completo" />
+              {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="email">E-mail</Label>
-              <Input {...register('email')} type="string" placeholder="email@exemplo.com" />
+              <Input {...register('email')} type="email" placeholder="email@exemplo.com" />
+              {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -83,36 +45,38 @@ export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
                 type="password"
                 placeholder="Digite sua senha aqui..."
               />
+              {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="phone">Telefone</Label>
               <Input {...register('phone')} type="tel" placeholder="(00) 00000-0000" />
+              {errors.phone && <p className="text-sm text-red-500">{errors.phone.message}</p>}
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="state">Estado</Label>
               <Input {...register('state')} placeholder="Paraíba" />
+              {errors.state && <p className="text-sm text-red-500">{errors.state.message}</p>}
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="city">Cidade</Label>
               <Input {...register('city')} placeholder="Patos" />
+              {errors.city && <p className="text-sm text-red-500">{errors.city.message}</p>}
             </div>
 
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="accountType">Tipo da Conta</Label>
-              <Input {...register('accountType')} placeholder="0 ou 1" />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="documentNumber">Número do Documento</Label>
-              <Input {...register('documentNumber')} placeholder="000" />
-            </div>
+            {serverError && <p className="text-sm text-red-500">{serverError}</p>}
 
             <div className="flex gap-2">
-              <Button type="submit" variant={'default'} size={'lg'} className="font-semibold">
-                Criar Conta
+              <Button
+                type="submit"
+                variant={'default'}
+                size={'lg'}
+                className="font-semibold"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Criando conta...' : 'Criar Conta'}
               </Button>
               <Button
                 onClick={() => onCancel?.()}

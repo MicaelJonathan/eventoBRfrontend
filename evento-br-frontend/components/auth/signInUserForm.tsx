@@ -1,51 +1,23 @@
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { useForm } from 'react-hook-form';
+import { useSignIn } from '@/hooks/useSignIn';
 import { Card, CardHeader, CardContent } from '../ui/card';
-import * as z from 'zod';
-import axios from 'axios';
 
 type SignInUserFormProps = {
   onSignInSuccess: () => void;
   onCancel?: () => void;
 };
 
-type userDataProps = {
-  email: string;
-  password: string;
-};
-
-const userDataSchema = z.object({
-  email: z.email(),
-  password: z
-    .string()
-    .min(8, { message: 'A senha deve ter no mínimo 8 caracteres' })
-    .max(20, { message: 'A senha deve ter no máximo 20 caracteres' }),
-});
-
 export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUserFormProps) {
-  const { register, handleSubmit } = useForm<userDataProps>();
-
-  const handleLogin = async (data: userDataProps) => {
-    const safeParsedData = userDataSchema.safeParse(data);
-    console.log('Dados enviados:' + safeParsedData.data);
-
-    if (safeParsedData.success) {
-      try {
-        await axios
-          .post('https://eventobrbackend.onrender.com/api/User/login', safeParsedData.data)
-          .then((response) => localStorage.setItem('token', response.data.token));
-        onSignInSuccess();
-
-        console.log('Login realizado com sucesso!');
-      } catch (e) {
-        console.error(e);
-      }
-    } else {
-      console.log(safeParsedData.error);
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    handleLogin,
+    serverError,
+    isSubmitting,
+    formState: { errors },
+  } = useSignIn(onSignInSuccess);
 
   return (
     <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit ">
@@ -62,10 +34,11 @@ export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUser
                 placeholder="email@exemplo.com"
                 required
               />
+              {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex">
-                <Label htmlFor="senha">Senha</Label>
+                <Label htmlFor="password">Senha</Label>
                 <a
                   href="#"
                   className="ml-auto inline-block text-sm underline-offset-2 hover:underline"
@@ -80,11 +53,20 @@ export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUser
                 placeholder="Digite sua senha aqui..."
                 required
               />
+              {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
             </div>
           </div>
+
+          {serverError && <p className="mt-2 text-sm text-red-500">{serverError}</p>}
           <div className="flex gap-2 mt-6">
-            <Button type="submit" variant={'default'} size={'lg'} className={'font-semibold'}>
-              Entrar
+            <Button
+              type="submit"
+              variant={'default'}
+              size={'lg'}
+              className={'font-semibold'}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Entrando...' : 'Entrar'}
             </Button>
             <Button
               onClick={() => onCancel?.()}
