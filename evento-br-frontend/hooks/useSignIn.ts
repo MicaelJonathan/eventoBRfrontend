@@ -1,6 +1,6 @@
-import { api } from '@/lib/api';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { loginUser } from '@/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserSignInProps, UserSignInSchema } from '@/schemas/userSignInSchema';
 
@@ -15,7 +15,7 @@ export function useSignIn(onSigInSuccess: () => void) {
     setIsSubmitting(true);
 
     try {
-      await api.post('/User/login', data);
+      await loginUser(data);
       onSigInSuccess();
     } catch (e) {
       setServerError('E-mail ou senha não encontrado(a)');

@@ -5,38 +5,20 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
-import { api } from '@/lib/api';
-import { UserSignUpSchema } from '@/schemas/userSignUpSchema';
+import { UserSignUpProps } from '@/schemas/userSignUpSchema';
+import { registerUser } from '@/services/authService';
 
 type SignUpUserFormProps = {
   onCancel?: () => void;
 };
 
-type UserDataProps = {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  city: string;
-  state: string;
-  accountType: 0 | 1;
-  documentNumber: string | null;
-};
-
-const handleSave = (data: UserDataProps) => {
+const handleSave = async (data: UserSignUpProps) => {
   data.accountType = 0;
-  const safeParsedData = UserSignUpSchema.safeParse(data);
-  if (safeParsedData.success) {
-    console.log(safeParsedData.data);
-  } else {
-    console.log(safeParsedData.error);
-  }
-
-  api.post('/User/register', safeParsedData.data);
+  await registerUser(data);
 };
 
 export default function SignUpUserForm({ onCancel }: SignUpUserFormProps) {
-  const { register, handleSubmit } = useForm<UserDataProps>();
+  const { register, handleSubmit } = useForm<UserSignUpProps>();
 
   return (
     <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit">
