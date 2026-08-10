@@ -1,8 +1,8 @@
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { Card, CardHeader, CardContent } from '../ui/card';
 import { useSignIn } from '@/hooks/useSignIn';
+import { Card, CardHeader, CardContent } from '../ui/card';
 
 type SignInUserFormProps = {
   onSignInSuccess: () => void;
@@ -10,7 +10,14 @@ type SignInUserFormProps = {
 };
 
 export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUserFormProps) {
-  const { register, handleSubmit, handleLogin } = useSignIn(onSignInSuccess);
+  const {
+    register,
+    handleSubmit,
+    handleLogin,
+    serverError,
+    isSubmitting,
+    formState: { errors },
+  } = useSignIn(onSignInSuccess);
 
   return (
     <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit ">
@@ -27,10 +34,11 @@ export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUser
                 placeholder="email@exemplo.com"
                 required
               />
+              {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex">
-                <Label htmlFor="senha">Senha</Label>
+                <Label htmlFor="password">Senha</Label>
                 <a
                   href="#"
                   className="ml-auto inline-block text-sm underline-offset-2 hover:underline"
@@ -45,11 +53,20 @@ export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUser
                 placeholder="Digite sua senha aqui..."
                 required
               />
+              {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
             </div>
           </div>
+
+          {serverError && <p className="mt-2 text-sm text-red-500">{serverError}</p>}
           <div className="flex gap-2 mt-6">
-            <Button type="submit" variant={'default'} size={'lg'} className={'font-semibold'}>
-              Entrar
+            <Button
+              type="submit"
+              variant={'default'}
+              size={'lg'}
+              className={'font-semibold'}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Entrando...' : 'Entrar'}
             </Button>
             <Button
               onClick={() => onCancel?.()}
