@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 export const UserSignUpSchema = z.object({
   name: z
-    .string()
+    .string({ message: 'Digite um e-mail válido' })
     .min(3, { message: 'O nome deve ter no mínimo 3 caracteres' })
     .max(100, { message: 'O nome deve ter no máximo 100 caracteres' }),
 
@@ -18,8 +18,6 @@ export const UserSignUpSchema = z.object({
 
   city: z.string(),
   state: z.string(),
-  accountType: z.number(),
-  documentNumber: z.string(),
 });
 
 export type UserSignUpProps = z.infer<typeof UserSignUpSchema>;
