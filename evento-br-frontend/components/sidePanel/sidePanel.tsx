@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Header from './header';
 import SearchBar from './searchBar';
 import FilterButton from './filterButton';
@@ -8,13 +9,11 @@ import { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import CreateEventDialog from '@/components/ui/createEventForm';
 import CalendarDialog from '@/components/ui/viewCalendarForm';
-import CreateProfileView from '@/components/ui/createProfileViewForm';
 import CreateSettingsView from '@/components/ui/createSettingsForm';
 
 export default function SidePanel() {
   const [createEventOpen, setCreateEventOpen] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [userOpen, setUserOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [painelSideOpen, setPainelSideOpen] = useState(true);
 
@@ -66,17 +65,36 @@ export default function SidePanel() {
           </Button>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <h3>Pŕoximos Eventos</h3>
-          <ul className="flex flex-col gap-2">
-            <li>
-              <EventCard />
-            </li>
-            <li>
-              <EventCard />
-            </li>
-          </ul>
-        </div>
+      <div className="flex gap-2">
+        <Button
+          onClick={() => setCreateEventOpen(true)}
+          variant="outline"
+          className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
+        >
+          <Plus className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
+        </Button>
+        <Button
+          onClick={() => setCalendarOpen(true)}
+          variant="outline"
+          className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
+        >
+          <Calendar className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
+        </Button>
+        <Button
+          variant="outline"
+          className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
+        >
+          <Link href="/perfil">
+            <User className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
+          </Link>
+        </Button>
+        <Button
+          onClick={() => setSettingsOpen(true)}
+          variant="outline"
+          className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
+        >
+          <Settings className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
+        </Button>
       </div>
 
       <Button
@@ -101,12 +119,6 @@ export default function SidePanel() {
       <Dialog open={calendarOpen} onOpenChange={setCalendarOpen}>
         <DialogContent className="p-0 sm:max-w-md">
           <CalendarDialog onCancel={() => setCalendarOpen(false)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={userOpen} onOpenChange={setUserOpen}>
-        <DialogContent className="p-0 sm:max-w-md">
-          <CreateProfileView onCancel={() => setUserOpen(false)} />
         </DialogContent>
       </Dialog>
 

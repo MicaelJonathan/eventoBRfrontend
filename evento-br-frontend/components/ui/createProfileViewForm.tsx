@@ -1,25 +1,36 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+'use client';
+
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { Card, CardHeader, CardContent } from './card';
+import { Button } from '@base-ui/react';
 
-type CreateProfileViewFormProps = {
-  onCancel?: () => void;
-};
-
-export default function CreateProfileViewForm({ onCancel }: CreateProfileViewFormProps) {
+export default function ProfileView() {
   const { register, handleSubmit } = useForm();
+
   return (
-    <DialogContent className="sm:max-w-xl">
-      <DialogHeader>
-        <DialogTitle>Perfil do usuário</DialogTitle>
-      </DialogHeader>
-      <div className="space-y-4">
-        <div>
-          <p>Nome: </p>
+    <Card size="default" className="mx-auto w-full max-w-xl max-h-fit">
+      <CardHeader>
+        <h3 className="font-semibold">Perfil do usuário</h3>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div>
+            <p>Nome: </p>
+          </div>
+          <div>
+            <p>Email: </p>
+          </div>
         </div>
-        <div>
-          <p>Email: </p>
-        </div>
-      </div>
-    </DialogContent>
+      </CardContent>
+      <Button>  
+        <span className="text-sm font-medium">Deletar perfil</span>
+      </Button>
+      <Button>
+        <Link href="/home">
+          <span className="text-sm font-medium">Voltar para home</span>
+        </Link>
+      </Button>
+    </Card>
   );
 }
