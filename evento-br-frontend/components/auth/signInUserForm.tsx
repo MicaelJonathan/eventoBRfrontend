@@ -4,32 +4,18 @@ import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
 import { api } from '@/lib/api';
 import { Card, CardHeader, CardContent } from '../ui/card';
-import * as z from 'zod';
-import axios from 'axios';
+import { userSignInSchema, userSignInProps } from '@/schemas/userSignInSchema';
 
 type SignInUserFormProps = {
   onSignInSuccess: () => void;
   onCancel?: () => void;
 };
 
-type userDataProps = {
-  email: string;
-  password: string;
-};
-
-const userDataSchema = z.object({
-  email: z.email(),
-  password: z
-    .string()
-    .min(8, { message: 'A senha deve ter no mínimo 8 caracteres' })
-    .max(20, { message: 'A senha deve ter no máximo 20 caracteres' }),
-});
-
 export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUserFormProps) {
-  const { register, handleSubmit } = useForm<userDataProps>();
+  const { register, handleSubmit } = useForm<userSignInProps>();
 
-  const handleLogin = async (data: userDataProps) => {
-    const safeParsedData = userDataSchema.safeParse(data);
+  const handleLogin = async (data: userSignInProps) => {
+    const safeParsedData = userSignInSchema.safeParse(data);
     console.log('Dados enviados:' + safeParsedData.data);
 
     if (safeParsedData.success) {
