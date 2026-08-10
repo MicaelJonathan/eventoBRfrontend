@@ -2,6 +2,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
+import { api } from '@/lib/api';
 import { Card, CardHeader, CardContent } from '../ui/card';
 import * as z from 'zod';
 import axios from 'axios';
@@ -33,8 +34,8 @@ export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUser
 
     if (safeParsedData.success) {
       try {
-        await axios
-          .post('https://eventobrbackend.onrender.com/api/User/login', safeParsedData.data)
+        await api
+          .post('/User/login', safeParsedData.data)
           .then((response) => localStorage.setItem('token', response.data.token));
         onSignInSuccess();
 
