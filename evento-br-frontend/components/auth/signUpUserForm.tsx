@@ -6,7 +6,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
 import { api } from '@/lib/api';
-import * as z from 'zod';
+import { UserSignUpSchema } from '@/schemas/userSignUpSchema';
 
 type SignUpUserFormProps = {
   onCancel?: () => void;
@@ -23,31 +23,9 @@ type UserDataProps = {
   documentNumber: string | null;
 };
 
-const userDataSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: 'O nome deve ter no mínimo 3 caracteres' })
-    .max(100, { message: 'O nome deve ter no máximo 100 caracteres' }),
-
-  email: z.email(),
-  password: z
-    .string()
-    .min(8, { message: 'A senha deve ter no mínimo 8 caracteres' })
-    .max(20, { message: 'A senha deve ter no máximo 20 caracteres' }),
-
-  phone: z.string().regex(/^\d{2}9\d{8}$/, {
-    message: 'O telefone deve estar no formato (00) 00000-0000',
-  }),
-
-  city: z.string(),
-  state: z.string(),
-  accountType: z.number(),
-  documentNumber: z.string(),
-});
-
 const handleSave = (data: UserDataProps) => {
   data.accountType = 0;
-  const safeParsedData = userDataSchema.safeParse(data);
+  const safeParsedData = UserSignUpSchema.safeParse(data);
   if (safeParsedData.success) {
     console.log(safeParsedData.data);
   } else {
