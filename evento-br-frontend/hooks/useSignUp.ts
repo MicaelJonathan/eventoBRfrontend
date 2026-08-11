@@ -17,8 +17,6 @@ export function useSignUp(onSignUpSuccess: () => void) {
     try {
       await registerUser({
         ...data,
-        accountType: data.accountType ?? 0,
-        documentNumber: data.documentNumber || '000',
       });
       onSignUpSuccess();
     } catch (e) {
