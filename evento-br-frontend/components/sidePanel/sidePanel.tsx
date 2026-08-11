@@ -5,17 +5,34 @@ import FilterButton from './filterButton';
 import EventCard from './eventCard';
 import { Button } from '@/components/ui/button';
 import { Plus, Calendar, User, Settings, Menu } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import CreateEventDialog from '@/components/ui/createEventForm';
 import CalendarDialog from '@/components/ui/viewCalendarForm';
 import CreateSettingsView from '@/components/ui/createSettingsForm';
+import { useRouter } from 'next/navigation';
 
 export default function SidePanel() {
   const [createEventOpen, setCreateEventOpen] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [painelSideOpen, setPainelSideOpen] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const requireAuth = (action: () => void) => {
+    if (!isLoggedIn) {
+      alert('Placeholder: Você precisa estar logado para acessar isso.');
+      return;
+    }
+    action();
+  };
+
   return (
     <>
       <div
@@ -35,29 +52,32 @@ export default function SidePanel() {
 
         <div className="flex gap-2">
           <Button
-            onClick={() => setCreateEventOpen(true)}
+            onClick={() => requireAuth(() => setCreateEventOpen(true))}
             variant="outline"
             className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
           >
             <Plus className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
           </Button>
           <Button
-            onClick={() => setCalendarOpen(true)}
+            onClick={() => requireAuth(() => setCalendarOpen(true))}
             variant="outline"
             className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
           >
             <Calendar className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
           </Button>
           <Button
+            onClick={() =>
+              requireAuth(() => {
+                router.push('/perfil');
+              })
+            }
             variant="outline"
             className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
           >
-            <Link href="/perfil">
-              <User className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
-            </Link>
+            <User className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
           </Button>
           <Button
-            onClick={() => setSettingsOpen(true)}
+            onClick={() => requireAuth(() => setSettingsOpen(true))}
             variant="outline"
             className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
           >

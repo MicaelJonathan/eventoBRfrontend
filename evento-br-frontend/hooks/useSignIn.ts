@@ -22,6 +22,7 @@ export function useSignIn(onSigInSuccess: () => void) {
       console.error(e);
     } finally {
       setIsSubmitting(false);
+      window.location.reload();
     }
   };
 

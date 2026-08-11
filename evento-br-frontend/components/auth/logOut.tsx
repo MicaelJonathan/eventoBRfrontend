@@ -9,6 +9,7 @@ export default function LogOut({ onSuccess }: LogOutProps) {
     localStorage.removeItem('token');
     console.log('Deslogado com sucesso!');
     onSuccess();
+    window.location.reload();
   };
 
   return (
