@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { eventDebug } from '@/lib/constants';
 import { eventDebug2 } from '@/lib/constants';
-import { eventDebugSame1} from '@/lib/constants';
+import { eventDebugSame1 } from '@/lib/constants';
 import { eventDebugSame2 } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 
@@ -68,7 +68,7 @@ export default function CreateCalendarForm({
           onSelect={setSelected}
           modifiers={{ marked: markedDates }}
           modifiersClassNames={{
-            marked: 'rounded-full font-semibold',
+            marked: 'rounded-full font-semibold bg-gray-700 text-white',
           }}
           className="mx-auto"
         />
@@ -85,7 +85,8 @@ export default function CreateCalendarForm({
                 <span className="text-sm text-muted-foreground">Horário:</span> {selectedInfo.time}
               </p>
               <p>
-                <span className="text-sm text-muted-foreground">Local:</span> {selectedInfo.location}
+                <span className="text-sm text-muted-foreground">Local:</span>{' '}
+                {selectedInfo.location}
               </p>
               <p>
                 <span className="text-sm text-muted-foreground">Capacidade:</span>{' '}
