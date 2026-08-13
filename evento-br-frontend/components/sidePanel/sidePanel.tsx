@@ -1,16 +1,17 @@
+import { Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import Header from './header';
 import SearchBar from './searchBar';
-import FilterButton from './filterButton';
 import EventCard from './eventCard';
-import { Button } from '@/components/ui/button';
-import { Plus, Calendar, User, Settings, Menu } from 'lucide-react';
-import { useState } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import CreateEventDialog from '@/components/ui/createEventForm';
+import PanelActions from './panelActions';
+import FilterButton from './filterButton';
 import CalendarDialog from '@/components/ui/viewCalendarForm';
+import CreateEventDialog from '@/components/ui/createEventForm';
 import CreateSettingsView from '@/components/ui/createSettingsForm';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
 
 export default function SidePanel() {
   const [createEventOpen, setCreateEventOpen] = useState(false);
@@ -37,40 +38,16 @@ export default function SidePanel() {
           <FilterButton className="bg-white size-10 rounded-md border-1 border-gray-300 flex items-center justify-center" />
         </div>
 
-        <div className="flex gap-2">
-          <Button
-            onClick={() => requireAuth(() => setCreateEventOpen(true))}
-            variant="outline"
-            className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
-          >
-            <Plus className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
-          </Button>
-          <Button
-            onClick={() => requireAuth(() => setCalendarOpen(true))}
-            variant="outline"
-            className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
-          >
-            <Calendar className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
-          </Button>
-          <Button
-            onClick={() =>
-              requireAuth(() => {
-                router.push('/perfil');
-              })
-            }
-            variant="outline"
-            className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
-          >
-            <User className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
-          </Button>
-          <Button
-            onClick={() => requireAuth(() => setSettingsOpen(true))}
-            variant="outline"
-            className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
-          >
-            <Settings className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
-          </Button>
-        </div>
+        <PanelActions
+          onCreateEvent={() => requireAuth(() => setCreateEventOpen(true))}
+          onOpenCalendar={() => requireAuth(() => setCalendarOpen(true))}
+          onOpenProfile={() =>
+            requireAuth(() => {
+              router.push('/perfil');
+            })
+          }
+          onOpenSettigns={() => requireAuth(() => setSettingsOpen(true))}
+        />
 
         <div className="flex flex-col gap-2">
           <h3>Pŕoximos Eventos</h3>
