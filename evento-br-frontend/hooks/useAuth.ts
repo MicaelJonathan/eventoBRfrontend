@@ -13,9 +13,9 @@ export function useAuth() {
     (action: () => void) => {
       if (!isLoggedIn) {
         alert('Você precisa entrar em uma conta para utilizar esse recurso!');
-        return;
+      } else {
+        action();
       }
-      action();
     },
     [isLoggedIn]
   );
