@@ -38,13 +38,6 @@ export default function HomePage({}) {
       <SidePanel />
 
       {!isLoggedIn && <AuthDialog onSignInSuccess={() => setIsLoggedIn(true)} />}
-      {isLoggedIn && (
-        <LogOut
-          onSuccess={() => {
-            setIsLoggedIn(false);
-          }}
-        />
-      )}
     </div>
   );
 }

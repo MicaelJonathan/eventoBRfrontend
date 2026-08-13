@@ -4,10 +4,13 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { Card, CardHeader, CardContent } from './card';
 import { Button } from '@base-ui/react';
+import LogOut from '@/components/auth/logOut';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function ProfileView() {
   const { register, handleSubmit } = useForm();
-
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   return (
     <Card size="default" className="mx-auto w-full max-w-xl max-h-fit">
       <CardHeader>
@@ -31,6 +34,7 @@ export default function ProfileView() {
           <span className="text-sm font-medium">Voltar para home</span>
         </Link>
       </Button>
+      <LogOut onSuccess={() => {}}/>
     </Card>
   );
 }
