@@ -22,6 +22,7 @@ export default function SidePanel() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoggedIn(!!token);
   }, []);
 
