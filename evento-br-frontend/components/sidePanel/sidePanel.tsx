@@ -5,34 +5,21 @@ import FilterButton from './filterButton';
 import EventCard from './eventCard';
 import { Button } from '@/components/ui/button';
 import { Plus, Calendar, User, Settings, Menu } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import CreateEventDialog from '@/components/ui/createEventForm';
 import CalendarDialog from '@/components/ui/viewCalendarForm';
 import CreateSettingsView from '@/components/ui/createSettingsForm';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function SidePanel() {
   const [createEventOpen, setCreateEventOpen] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [painelSideOpen, setPainelSideOpen] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsLoggedIn(!!token);
-  }, []);
-
-  const requireAuth = (action: () => void) => {
-    if (!isLoggedIn) {
-      alert('Placeholder: Você precisa estar logado para acessar isso.');
-      return;
-    }
-    action();
-  };
+  const { requireAuth } = useAuth();
 
   return (
     <>
