@@ -1,16 +1,14 @@
 'use client';
 
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { Card, CardHeader, CardContent } from './card';
 import { Button } from '@base-ui/react';
-import LogOut from '@/components/auth/logOut';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Card, CardHeader, CardContent } from './card';
+import Link from 'next/link';
+import LogOut from '@/components/auth/logOut';
 
 export default function ProfileView() {
-  const { register, handleSubmit } = useForm();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const router = useRouter();
+
   return (
     <Card size="default" className="mx-auto w-full max-w-xl max-h-fit">
       <CardHeader>
@@ -26,7 +24,7 @@ export default function ProfileView() {
           </div>
         </div>
       </CardContent>
-      <Button>  
+      <Button>
         <span className="text-sm font-medium">Deletar perfil</span>
       </Button>
       <Button>
@@ -34,7 +32,11 @@ export default function ProfileView() {
           <span className="text-sm font-medium">Voltar para home</span>
         </Link>
       </Button>
-      <LogOut onSuccess={() => {}}/>
+      <LogOut
+        onSuccess={() => {
+          router.push('/home');
+        }}
+      />
     </Card>
   );
 }
