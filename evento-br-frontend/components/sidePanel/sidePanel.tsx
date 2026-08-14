@@ -1,36 +1,24 @@
+import { Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { tempMockEvents } from '@/lib/tempMockEvents';
 import Header from './header';
 import SearchBar from './searchBar';
+import EventsList from './eventsList';
+import PanelActions from './panelActions';
 import FilterButton from './filterButton';
-import EventCard from './eventCard';
-import { Button } from '@/components/ui/button';
-import { Plus, Calendar, User, Settings, Menu } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import CreateEventDialog from '@/components/ui/createEventForm';
-import CalendarDialog from '@/components/ui/viewCalendarForm';
-import CreateSettingsView from '@/components/ui/createSettingsForm';
-import { useRouter } from 'next/navigation';
+import SidePanelDialogs from './sidePanelDialogs';
 
 export default function SidePanel() {
   const [createEventOpen, setCreateEventOpen] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [painelSideOpen, setPainelSideOpen] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const { requireAuth } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
-  }, []);
-
-  const requireAuth = (action: () => void) => {
-    if (!isLoggedIn) {
-      alert('Placeholder: Você precisa estar logado para acessar isso.');
-      return;
-    }
-    action();
-  };
 
   return (
     <>
@@ -49,52 +37,18 @@ export default function SidePanel() {
           <FilterButton className="bg-white size-10 rounded-md border-1 border-gray-300 flex items-center justify-center" />
         </div>
 
-        <div className="flex gap-2">
-          <Button
-            onClick={() => requireAuth(() => setCreateEventOpen(true))}
-            variant="outline"
-            className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
-          >
-            <Plus className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
-          </Button>
-          <Button
-            onClick={() => requireAuth(() => setCalendarOpen(true))}
-            variant="outline"
-            className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
-          >
-            <Calendar className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
-          </Button>
-          <Button
-            onClick={() =>
-              requireAuth(() => {
-                router.push('/perfil');
-              })
-            }
-            variant="outline"
-            className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
-          >
-            <User className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
-          </Button>
-          <Button
-            onClick={() => requireAuth(() => setSettingsOpen(true))}
-            variant="outline"
-            className="bg-white size-10 rounded-md border-1 border-gray-300 p-0"
-          >
-            <Settings className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
-          </Button>
-        </div>
+        <PanelActions
+          onCreateEvent={() => requireAuth(() => setCreateEventOpen(true))}
+          onOpenCalendar={() => requireAuth(() => setCalendarOpen(true))}
+          onOpenProfile={() =>
+            requireAuth(() => {
+              router.push('/perfil');
+            })
+          }
+          onOpenSettigns={() => requireAuth(() => setSettingsOpen(true))}
+        />
 
-        <div className="flex flex-col gap-2">
-          <h3>Pŕoximos Eventos</h3>
-          <ul className="flex flex-col gap-2">
-            <li>
-              <EventCard />
-            </li>
-            <li>
-              <EventCard />
-            </li>
-          </ul>
-        </div>
+        <EventsList events={tempMockEvents} />
       </div>
 
       <Button
@@ -110,23 +64,14 @@ export default function SidePanel() {
         />
       </Button>
 
-      <Dialog open={createEventOpen} onOpenChange={setCreateEventOpen}>
-        <DialogContent className="p-0 sm:max-w-md">
-          <CreateEventDialog onCancel={() => setCreateEventOpen(false)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={calendarOpen} onOpenChange={setCalendarOpen}>
-        <DialogContent className="p-0 sm:max-w-md">
-          <CalendarDialog onCancel={() => setCalendarOpen(false)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
-        <DialogContent className="p-0 sm:max-w-md">
-          <CreateSettingsView onCancel={() => setSettingsOpen(false)} />
-        </DialogContent>
-      </Dialog>
+      <SidePanelDialogs
+        createEventOpen={createEventOpen}
+        setCreateEventOpen={setCreateEventOpen}
+        calendarOpen={calendarOpen}
+        setCalendarOpen={setCalendarOpen}
+        settingsOpen={settingsOpen}
+        setSettingsOpen={setSettingsOpen}
+      />
     </>
   );
 }
