@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { tempMockEvents } from '@/lib/tempMockEvents';
 import Header from './header';
 import SearchBar from './searchBar';
 import EventsList from './eventsList';
@@ -15,8 +16,9 @@ export default function SidePanel() {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [painelSideOpen, setPainelSideOpen] = useState(true);
-  const router = useRouter();
+
   const { requireAuth } = useAuth();
+  const router = useRouter();
 
   return (
     <>
@@ -46,30 +48,7 @@ export default function SidePanel() {
           onOpenSettigns={() => requireAuth(() => setSettingsOpen(true))}
         />
 
-        <EventsList
-          events={[
-            {
-              id: '0',
-              title: 'Evento Patoense',
-              imageUrl: '/forro.png',
-              spot: 'Praça Edvaldo Motta',
-              date: '24 de maio',
-              hour: '20:00',
-              participantsQuantity: 250,
-              saved: false,
-            },
-            {
-              id: '0',
-              title: 'Evento Patoense',
-              imageUrl: '/forro.png',
-              spot: 'Praça Edvaldo Motta',
-              date: '24 de maio',
-              hour: '20:00',
-              participantsQuantity: 250,
-              saved: false,
-            },
-          ]}
-        />
+        <EventsList events={tempMockEvents} />
       </div>
 
       <Button
