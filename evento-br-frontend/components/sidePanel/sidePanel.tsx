@@ -3,16 +3,12 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import Header from './header';
 import SearchBar from './searchBar';
-import EventCard from './eventCard';
 import EventsList from './eventsList';
 import PanelActions from './panelActions';
 import FilterButton from './filterButton';
-import CalendarDialog from '@/components/ui/viewCalendarForm';
-import CreateEventDialog from '@/components/ui/createEventForm';
-import CreateSettingsView from '@/components/ui/createSettingsForm';
+import SidePanelDialogs from './sidePanelDialogs';
 
 export default function SidePanel() {
   const [createEventOpen, setCreateEventOpen] = useState(false);
@@ -89,23 +85,14 @@ export default function SidePanel() {
         />
       </Button>
 
-      <Dialog open={createEventOpen} onOpenChange={setCreateEventOpen}>
-        <DialogContent className="p-0 sm:max-w-md">
-          <CreateEventDialog onCancel={() => setCreateEventOpen(false)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={calendarOpen} onOpenChange={setCalendarOpen}>
-        <DialogContent className="p-0 sm:max-w-md">
-          <CalendarDialog onCancel={() => setCalendarOpen(false)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
-        <DialogContent className="p-0 sm:max-w-md">
-          <CreateSettingsView onCancel={() => setSettingsOpen(false)} />
-        </DialogContent>
-      </Dialog>
+      <SidePanelDialogs
+        createEventOpen={createEventOpen}
+        setCreateEventOpen={setCreateEventOpen}
+        calendarOpen={calendarOpen}
+        setCalendarOpen={setCalendarOpen}
+        settingsOpen={settingsOpen}
+        setSettingsOpen={setSettingsOpen}
+      />
     </>
   );
 }
