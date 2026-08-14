@@ -6,7 +6,6 @@ import AuthDialog from '@/components/auth/authDialog';
 import { defaultMapValues } from '@/lib/constants';
 import SidePanel from '@/components/sidePanel/sidePanel';
 import { useEffect, useState } from 'react';
-import LogOut from '@/components/auth/logOut';
 
 const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
   ssr: false,
@@ -19,6 +18,7 @@ const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
 
 export default function HomePage({}) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -33,9 +33,11 @@ export default function HomePage({}) {
         latitude={defaultMapValues.lat}
         longitude={defaultMapValues.long}
         className="z-0"
+        selectedLocation={selectedLocation}
+        onLocationSelect={setSelectedLocation}
       />
 
-      <SidePanel />
+      <SidePanel selectedLocation={selectedLocation} />
 
       {!isLoggedIn && <AuthDialog onSignInSuccess={() => setIsLoggedIn(true)} />}
     </div>

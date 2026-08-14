@@ -11,6 +11,8 @@ interface MapComponentProps {
   latitude: number;
   longitude: number;
   className?: string;
+  selectedLocation: { lat: number; lng: number } | null;
+  onLocationSelect: (location: { lat: number; lng: number }) => void;
 }
 
 function createPinIcon(color: string) {
@@ -44,13 +46,12 @@ function ClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number) =
   return null;
 }
 
-export default function MapComponent({ latitude, longitude, className }: MapComponentProps) {
+export default function MapComponent({ latitude, longitude, className, selectedLocation, onLocationSelect }: MapComponentProps) {
   const centerPosition: [number, number] = [latitude, longitude];
   const mapRef = useRef<L.Map | null>(null);
-  const [tempMarker, setTempMarker] = useState<{ lat: number; lng: number } | null>(null);
 
   const mapHandlerClick = (lat: number, lng: number) => {
-    setTempMarker({ lat, lng });
+    onLocationSelect({ lat, lng });
     console.log('Coordenadas: ', { latitude: lat, longitude: lng });
   };
 
@@ -80,7 +81,8 @@ export default function MapComponent({ latitude, longitude, className }: MapComp
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ClickHandler onMapClick={mapHandlerClick} />
-      // Modificar "tempoMockEvents.map" para pegar os eventos do backend, por enquanto está pegando
+
+      // Modificar "tempMockEvents.map" para pegar os eventos do backend, por enquanto está pegando
       dos mocks. // Se o tempo deixar modificar esse box tb.. não sou bom nisso e tá feio que doi os
       cabelo.
       {tempMockEvents.map((event) => (
@@ -99,7 +101,9 @@ export default function MapComponent({ latitude, longitude, className }: MapComp
         </Marker>
       ))}
       
-      {tempMarker && <Marker position={[tempMarker.lat, tempMarker.lng]} icon={IconMarker} />}
+      {selectedLocation && (
+         <Marker position={[selectedLocation.lat, selectedLocation.lng]} icon={IconMarker} />
+      )}
     </MapContainer>
   );
 }
