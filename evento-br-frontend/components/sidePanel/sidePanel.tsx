@@ -7,6 +7,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import Header from './header';
 import SearchBar from './searchBar';
 import EventCard from './eventCard';
+import EventsList from './eventsList';
 import PanelActions from './panelActions';
 import FilterButton from './filterButton';
 import CalendarDialog from '@/components/ui/viewCalendarForm';
@@ -49,17 +50,30 @@ export default function SidePanel() {
           onOpenSettigns={() => requireAuth(() => setSettingsOpen(true))}
         />
 
-        <div className="flex flex-col gap-2">
-          <h3>Pŕoximos Eventos</h3>
-          <ul className="flex flex-col gap-2">
-            <li>
-              <EventCard />
-            </li>
-            <li>
-              <EventCard />
-            </li>
-          </ul>
-        </div>
+        <EventsList
+          events={[
+            {
+              id: '0',
+              title: 'Evento Patoense',
+              imageUrl: '/forro.png',
+              spot: 'Praça Edvaldo Motta',
+              date: '24 de maio',
+              hour: '20:00',
+              participantsQuantity: 250,
+              saved: false,
+            },
+            {
+              id: '0',
+              title: 'Evento Patoense',
+              imageUrl: '/forro.png',
+              spot: 'Praça Edvaldo Motta',
+              date: '24 de maio',
+              hour: '20:00',
+              participantsQuantity: 250,
+              saved: false,
+            },
+          ]}
+        />
       </div>
 
       <Button

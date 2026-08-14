@@ -2,18 +2,11 @@ import Image from 'next/image';
 import { Users, MapPin, Calendar, Bookmark } from 'lucide-react';
 import { EventType } from '@/types/event';
 
-export default function EventCard() {
-  const event: EventType = {
-    id: '0',
-    title: 'Evento Patoense',
-    imageUrl: '/forro.png',
-    spot: 'Praça Edvaldo Motta',
-    date: '24 de maio',
-    hour: '20:00',
-    participantsQuantity: 250,
-    saved: false,
-  };
+interface EventCardProps {
+  event: EventType;
+}
 
+export default function EventCard({ event }: EventCardProps) {
   return (
     <div className="bg-white flex w-full items-center border-1 border-gray-300 rounded-md">
       <div className="relative size-24 overflow-hidden rounded-md shrink-0">
