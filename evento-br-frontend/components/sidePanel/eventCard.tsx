@@ -7,6 +7,9 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event }: EventCardProps) {
+  const informationLineClassName = 'flex text-gray-500 items-center gap-1 text-xs';
+  const iconsSizeClassName = 'size-4';
+
   return (
     <div className="bg-white flex w-full items-center border-1 border-gray-300 rounded-md">
       <div className="relative size-24 overflow-hidden rounded-md shrink-0">
@@ -17,19 +20,19 @@ export default function EventCard({ event }: EventCardProps) {
         <div className="flex flex-col p-2">
           <h4>{event.title}</h4>
           <ul className="flex flex-col gap-1">
-            <li className="flex text-gray-500 items-center gap-1">
-              <Users className="size-4" />
-              <p className="text-xs">{event.participantsQuantity}+</p>
+            <li className={informationLineClassName}>
+              <Users className={iconsSizeClassName} />
+              <span>{event.participantsQuantity}+</span>
             </li>
-            <li className="flex text-gray-500 items-center gap-1">
-              <MapPin className="size-4" />
-              <p className="text-xs">{event.spot}</p>
+            <li className={informationLineClassName}>
+              <MapPin className={iconsSizeClassName} />
+              <span>{event.spot}</span>
             </li>
-            <li className="flex text-gray-500 items-center gap-1">
-              <Calendar className="size-4" />
-              <p className="text-xs">
+            <li className={informationLineClassName}>
+              <Calendar className={iconsSizeClassName} />
+              <span>
                 {event.date} às {event.hour}
-              </p>
+              </span>
             </li>
           </ul>
         </div>
