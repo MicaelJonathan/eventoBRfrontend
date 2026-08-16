@@ -2,6 +2,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
+import { createEvent } from '@/services/eventService';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 type CreateEventFormProps = {
@@ -17,10 +18,7 @@ export default function CreateEventForm({ onCancel, selectedLocation }: CreateEv
     : 'Nenhuma coordenada selecionada';
 
   return (
-    <Card
-      size="default"
-      className="mx-auto max-w-4x1 w-full max-h-fit"
-    >
+    <Card size="default" className="mx-auto max-w-4x1 w-full max-h-fit">
       <CardHeader>
         <h3 className="font-semibold">Criar evento</h3>
       </CardHeader>
@@ -61,7 +59,9 @@ export default function CreateEventForm({ onCancel, selectedLocation }: CreateEv
             </div>
           </div>
           <div className="mt-4 flex gap-2">
-            <Button type="submit">Criar evento</Button>
+            <Button type="submit" onClick={() => createEvent()}>
+              Criar evento
+            </Button>
             <Button onClick={() => onCancel?.()}>Cancelar</Button>
           </div>
         </form>
