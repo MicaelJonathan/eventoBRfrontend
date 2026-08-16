@@ -20,5 +20,5 @@ export function useAuth() {
     [isLoggedIn]
   );
 
-  return { isLoggedIn, requireAuth };
+  return { isLoggedIn, setIsLoggedIn, requireAuth };
 }

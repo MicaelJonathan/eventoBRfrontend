@@ -2,10 +2,11 @@
 
 import '../app/globals.css';
 import dynamic from 'next/dynamic';
-import AuthDialog from '@/components/auth/authDialog';
-import { defaultMapValues } from '@/lib/constants';
 import SidePanel from '@/components/sidePanel/sidePanel';
-import { useEffect, useState } from 'react';
+import AuthDialog from '@/components/auth/authDialog';
+import { useAuth } from '@/hooks/useAuth';
+import { useMapSelection } from '@/hooks/useMapSelection';
+import { defaultMapValues } from '@/lib/constants';
 
 const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
   ssr: false,
@@ -17,17 +18,8 @@ const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
 });
 
 export default function HomePage({}) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsLoggedIn(Boolean(token));
-  }, []);
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { selectedLocation, setSelectedLocation } = useMapSelection();
 
   return (
     <div className="relative min-h-screen">
@@ -38,9 +30,7 @@ export default function HomePage({}) {
         selectedLocation={selectedLocation}
         onLocationSelect={setSelectedLocation}
       />
-
       <SidePanel selectedLocation={selectedLocation} />
-
       {!isLoggedIn && <AuthDialog onSignInSuccess={() => setIsLoggedIn(true)} />}
     </div>
   );
