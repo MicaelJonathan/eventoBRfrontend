@@ -1,6 +1,7 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import { useEffect } from 'react';
 import { useCreateEvent } from '@/hooks/useCreateEvent';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
@@ -48,10 +49,9 @@ export default function CreateEventForm({ onCancel, selectedLocation }: CreateEv
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="description">Descrição do evento</Label>
-              <Input
+              <Textarea
                 {...register('description')}
                 id="description"
-                type="text"
                 placeholder="Ex: Uma feira de tecnologia com palestras e workshops"
               />
               {errors.description && (
@@ -98,7 +98,7 @@ export default function CreateEventForm({ onCancel, selectedLocation }: CreateEv
               className="font-semibold"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Criando conta...' : 'Criar Conta'}
+              {isSubmitting ? 'Criando Evento...' : 'Criar Evento'}
             </Button>
             <Button
               onClick={() => onCancel?.()}
