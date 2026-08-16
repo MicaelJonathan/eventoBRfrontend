@@ -1,10 +1,7 @@
 import { Calendar } from '@/components/ui/calendar';
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { eventDebug } from '@/lib/constants';
-import { eventDebug2 } from '@/lib/constants';
-import { eventDebugSame1} from '@/lib/constants';
-import { eventDebugSame2 } from '@/lib/constants';
+import { eventDebug, eventDebug2, eventDebugSame1, eventDebugSame2 } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 
 type CreateCalendarFormProps = {
@@ -13,7 +10,7 @@ type CreateCalendarFormProps = {
   onOpenChange?: (open: boolean) => void;
 };
 
-type eventCalendarFormProps = {
+type EventCalendarFormProps = {
   date: string;
   time: string;
   title: string;
@@ -22,12 +19,16 @@ type eventCalendarFormProps = {
   capacity: number;
 };
 
-const eventPlaceholder: Record<string, eventCalendarFormProps> = {
-  [eventDebug.date]: eventDebug,
-  [eventDebug2.date]: eventDebug2,
-  [eventDebugSame1.date]: eventDebugSame1,
-  [eventDebugSame2.date]: eventDebugSame2,
-};
+const eventPlaceholder = [eventDebug, eventDebug2, eventDebugSame1, eventDebugSame2].reduce<
+  Record<string, EventCalendarFormProps[]>
+>((eventsByDate, event) => {
+  if (!eventsByDate[event.date]) {
+    eventsByDate[event.date] = [];
+  }
+
+  eventsByDate[event.date].push(event);
+  return eventsByDate;
+}, {});
 
 function toKey(date: Date) {
   const year = date.getFullYear();
@@ -48,12 +49,7 @@ export default function CreateCalendarForm({
 }: CreateCalendarFormProps) {
   const [selected, setSelected] = useState<Date | undefined>(undefined);
   const markedDates = Object.keys(eventPlaceholder).map((key) => parseLocalDate(key));
-  const selectedInfo = selected ? eventPlaceholder[toKey(selected)] : undefined;
-
-  const handleOpenChange = (isOpen: boolean) => {
-    onOpenChange?.(isOpen);
-    if (!isOpen) onCancel?.();
-  };
+  const selectedEvents = selected ? (eventPlaceholder[toKey(selected)] ?? []) : [];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -73,30 +69,39 @@ export default function CreateCalendarForm({
           className="mx-auto"
         />
 
-        {selectedInfo ? (
-          <div className="mt-2 rounded-xl border border-white/20 p-4 flex flex-col gap-1">
-            <p className="font-semibold text-lg">{selectedInfo.title}</p>
-            <p className="text-sm text-muted-foreground">{selectedInfo.description}</p>
-            <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-muted-foreground">
-              <p>
-                <span className="text-sm text-muted-foreground">Data:</span> {selectedInfo.date}
-              </p>
-              <p>
-                <span className="text-sm text-muted-foreground">Horário:</span> {selectedInfo.time}
-              </p>
-              <p>
-                <span className="text-sm text-muted-foreground">Local:</span> {selectedInfo.location}
-              </p>
-              <p>
-                <span className="text-sm text-muted-foreground">Capacidade:</span>{' '}
-                {selectedInfo.capacity} pessoas
-              </p>
+        {selected ? (
+          selectedEvents.length > 0 ? (
+            <div className="mt-2 flex flex-col gap-3">
+              {selectedEvents.map((event) => (
+                <div
+                  key={`${event.date}-${event.time}-${event.title}`}
+                  className="flex flex-col gap-1 rounded-xl border border-white/20 p-4"
+                >
+                  <p className="text-lg font-semibold">{event.title}</p>
+                  <p className="text-sm text-muted-foreground">{event.description}</p>
+                  <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-muted-foreground">
+                    <p>
+                      <span className="text-sm text-muted-foreground">Data:</span> {event.date}
+                    </p>
+                    <p>
+                      <span className="text-sm text-muted-foreground">Horário:</span> {event.time}
+                    </p>
+                    <p>
+                      <span className="text-sm text-muted-foreground">Local:</span> {event.location}
+                    </p>
+                    <p>
+                      <span className="text-sm text-muted-foreground">Capacidade:</span>{' '}
+                      {event.capacity} pessoas
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ) : selected ? (
-          <div className="mt-2 rounded-xl border p-4 text-sm text-muted-foreground">
-            Nenhum evento nessa data.
-          </div>
+          ) : (
+            <div className="mt-2 rounded-xl border p-4 text-sm text-muted-foreground">
+              Nenhum evento nessa data.
+            </div>
+          )
         ) : null}
         <Button onClick={() => onCancel?.()} className="mt-4 w-full">
           Fechar
