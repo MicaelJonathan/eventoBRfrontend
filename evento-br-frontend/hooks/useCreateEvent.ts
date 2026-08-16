@@ -17,6 +17,7 @@ export function useCreateEvent() {
 
     try {
       await createEvent(data);
+      window.location.reload();
     } catch (e) {
       setServerError('Informações do formulário não preenchidas corretamente');
       console.error(e);

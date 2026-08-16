@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -58,14 +58,6 @@ export default function MapComponent({
   const [events, setEvents] = useState<[getEventsResponseType] | null>(null);
   const { handleGetEvents } = useGetEvents();
 
-  useEffect(() => {
-    const getData = async () => {
-      setEvents(await handleGetEvents());
-    };
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    getData();
-  }, []);
-
   const centerPosition: [number, number] = [latitude, longitude];
   const mapRef = useRef<L.Map | null>(null);
 
@@ -73,6 +65,15 @@ export default function MapComponent({
     onLocationSelect({ lat, lng });
     console.log('Coordenadas: ', { latitude: lat, longitude: lng });
   };
+
+  const fetchEvents = useCallback(async () => {
+    setEvents(await handleGetEvents());
+  }, [handleGetEvents]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchEvents();
+  }, []);
 
   return (
     <MapContainer
