@@ -1,7 +1,8 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { useCreateEvent } from '@/hooks/useCreateEvent';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 type CreateEventFormProps = {
@@ -10,59 +11,104 @@ type CreateEventFormProps = {
 };
 
 export default function CreateEventForm({ onCancel, selectedLocation }: CreateEventFormProps) {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    handleCreateEvent,
+    setValue,
+    serverError,
+    isSubmitting,
+    formState: { errors },
+  } = useCreateEvent();
 
-  const coordinatesToString = selectedLocation
-    ? `${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`
-    : 'Nenhuma coordenada selecionada';
+  useEffect(() => {
+    if (selectedLocation) {
+      setValue('latitude', selectedLocation.lat);
+      setValue('longitude', selectedLocation.lng);
+    }
+  }, [selectedLocation, setValue]);
 
   return (
-    <Card
-      size="default"
-      className="mx-auto max-w-4x1 w-full max-h-fit"
-    >
+    <Card size="default" className="mx-auto max-w-4x1 w-full max-h-fit">
       <CardHeader>
-        <h3 className="font-semibold">Criar evento</h3>
+        <span className="font-semibold">Criar evento</span>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit((data) => console.log(data))}>
-          <div className="space-y-4">
-            <div>
+        <form onSubmit={handleSubmit(handleCreateEvent)}>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="name">Nome do evento</Label>
-              <Input id="name" placeholder="Ex: Feira de Tecnologia" {...register('name')} />
+              <Input
+                {...register('name')}
+                id="name"
+                type="text"
+                placeholder="Ex: Feira de Tecnologia"
+              />
+              {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
               <Label htmlFor="description">Descrição do evento</Label>
               <Input
-                id="description"
-                placeholder="Ex: Uma feira de tecnologia com palestras e workshops"
                 {...register('description')}
+                id="description"
+                type="text"
+                placeholder="Ex: Uma feira de tecnologia com palestras e workshops"
               />
+              {errors.description && (
+                <p className="text-sm text-red-500">{errors.description.message}</p>
+              )}
             </div>
-            <div>
-              <Label htmlFor="date">Data do evento</Label>
-              <Input id="date" type="date" {...register('date')} />
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="datetime-local">Data do evento</Label>
+              <Input
+                {...register('date_Time', {
+                  setValueAs: (value) => (value ? new Date(value).toISOString() : ''),
+                })}
+                id="datetime-local"
+                type="datetime-local"
+              />
+              {errors.date_Time && (
+                <p className="text-sm text-red-500">{errors.date_Time.message}</p>
+              )}
             </div>
-            <div>
-              <Label htmlFor="time">Horário do evento</Label>
-              <Input id="time" type="time" {...register('time')} />
-            </div>
-            <div>
+            <div className="flex flex-col gap-2">
               <Label htmlFor="location">Local do evento</Label>
               <Input
-                id="location"
-                placeholder="Ex: Centro de Convenções - Centro"
                 {...register('location')}
+                id="location"
+                type="text"
+                placeholder="Ex: Centro de Convenções - Centro"
               />
+              {errors.location && <p className="text-sm text-red-500">{errors.location.message}</p>}
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
               <Label htmlFor="capacity">Número de esperado participantes</Label>
               <Input id="capacity" type="number" placeholder="Ex: 100" {...register('capacity')} />
+              {errors.capacity && <p className="text-sm text-red-500">{errors.capacity.message}</p>}
             </div>
           </div>
+
+          {serverError && <p className="text-sm text-red-500">{serverError}</p>}
+
           <div className="mt-4 flex gap-2">
-            <Button type="submit">Criar evento</Button>
-            <Button onClick={() => onCancel?.()}>Cancelar</Button>
+            <Button
+              type="submit"
+              variant={'default'}
+              size={'lg'}
+              className="font-semibold"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Criando conta...' : 'Criar Conta'}
+            </Button>
+            <Button
+              onClick={() => onCancel?.()}
+              type="button"
+              variant={'secondary'}
+              size={'lg'}
+              className={'font-semibold'}
+            >
+              Cancelar
+            </Button>
           </div>
         </form>
       </CardContent>

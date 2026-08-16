@@ -6,6 +6,7 @@ import CreateSettingsView from '@/components/ui/createSettingsForm';
 interface SidePanelDialogsProps {
   createEventOpen: boolean;
   setCreateEventOpen: (open: boolean) => void;
+  selectedLocation: { lat: number; lng: number } | null;
   calendarOpen: boolean;
   setCalendarOpen: (open: boolean) => void;
   settingsOpen: boolean;
@@ -15,6 +16,7 @@ interface SidePanelDialogsProps {
 export default function SidePanelDialogs({
   createEventOpen,
   setCreateEventOpen,
+  selectedLocation,
   calendarOpen,
   setCalendarOpen,
   settingsOpen,
@@ -24,7 +26,10 @@ export default function SidePanelDialogs({
     <>
       <Dialog open={createEventOpen} onOpenChange={setCreateEventOpen}>
         <DialogContent className="p-0 sm:max-w-md">
-          <CreateEventDialog onCancel={() => setCreateEventOpen(false)} />
+          <CreateEventDialog
+            onCancel={() => setCreateEventOpen(false)}
+            selectedLocation={selectedLocation}
+          />
         </DialogContent>
       </Dialog>
 

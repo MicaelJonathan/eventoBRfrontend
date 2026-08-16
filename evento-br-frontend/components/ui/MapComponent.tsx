@@ -1,11 +1,13 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { defaultMapValues } from '@/lib/constants';
 import { tempMockEvents } from '@/lib/tempMockEvents'; // Importando os eventos mockados, remover dps.
+import { useGetEvents } from '@/hooks/useGetEvents';
+import { getEventsResponseType } from '@/types/getEventsResponse';
 
 interface MapComponentProps {
   latitude: number;
@@ -46,7 +48,16 @@ function ClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number) =
   return null;
 }
 
-export default function MapComponent({ latitude, longitude, className, selectedLocation, onLocationSelect }: MapComponentProps) {
+export default function MapComponent({
+  latitude,
+  longitude,
+  className,
+  selectedLocation,
+  onLocationSelect,
+}: MapComponentProps) {
+  const [events, setEvents] = useState<[getEventsResponseType] | null>(null);
+  const { handleGetEvents } = useGetEvents();
+
   const centerPosition: [number, number] = [latitude, longitude];
   const mapRef = useRef<L.Map | null>(null);
 
@@ -54,6 +65,15 @@ export default function MapComponent({ latitude, longitude, className, selectedL
     onLocationSelect({ lat, lng });
     console.log('Coordenadas: ', { latitude: lat, longitude: lng });
   };
+
+  const fetchEvents = useCallback(async () => {
+    setEvents(await handleGetEvents());
+  }, [handleGetEvents]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchEvents();
+  }, []);
 
   return (
     <MapContainer
@@ -81,28 +101,23 @@ export default function MapComponent({ latitude, longitude, className, selectedL
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ClickHandler onMapClick={mapHandlerClick} />
-
-      // Modificar "tempMockEvents.map" para pegar os eventos do backend, por enquanto está pegando
-      dos mocks. // Se o tempo deixar modificar esse box tb.. não sou bom nisso e tá feio que doi os
-      cabelo.
-      {tempMockEvents.map((event) => (
+      {/* Modificar "tempMockEvents.map" para pegar os eventos do backend, por enquanto está pegando dos mocks.
+      Se o tempo deixar modificar esse box tb.. não sou bom nisso e tá feio que doi os cabelo. */}
+      {events?.map((event) => (
         <Marker key={event.id} position={[event.latitude, event.longitude]} icon={IconEvent2}>
           <Popup>
-            <img src={event.imageUrl} />
+            {/* <img src={event.imageUrl} /> */}
             <div className="flex flex-col gap-1 text-zinc-900">
-              <p className="font-semibold">{event.title}</p>
-              <p className="text-sm">{event.spot}</p>
-              <p className="text-sm">
-                {event.date} às {event.hour}
-              </p>
-              <p className="text-sm">{event.participantsQuantity} participantes</p>
+              <p className="font-semibold">{event.name}</p>
+              <p className="text-sm">{event.location}</p>
+              <p className="text-sm">{event.date_Time}</p>
+              <p className="text-sm">{event.capacity} participantes</p>
             </div>
           </Popup>
         </Marker>
       ))}
-      
       {selectedLocation && (
-         <Marker position={[selectedLocation.lat, selectedLocation.lng]} icon={IconMarker} />
+        <Marker position={[selectedLocation.lat, selectedLocation.lng]} icon={IconMarker} />
       )}
     </MapContainer>
   );

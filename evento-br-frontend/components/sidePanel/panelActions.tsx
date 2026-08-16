@@ -24,9 +24,8 @@ export default function PanelActions({
         variant="outline"
         disabled={!hasLocation}
         className={`size-10 rounded-md border-1 border-gray-300 p-0 transition-colors 
-          ${hasLocation 
-            ? 'bg-white hover:bg-gray-50' 
-            : 'bg-gray-200 opacity-50 cursor-not-allowed'
+          ${
+            hasLocation ? 'bg-white hover:bg-gray-50' : 'bg-gray-200 opacity-50 cursor-not-allowed'
           }`}
       >
         <Plus className="!h-5 !w-5 text-gray-700" strokeWidth={2.5} />
