@@ -18,7 +18,9 @@ const MapComponent = dynamic(() => import('@/components/ui/MapComponent'), {
 
 export default function HomePage({}) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(
+    null
+  );
 
   useEffect(() => {
     const token = localStorage.getItem('token');
