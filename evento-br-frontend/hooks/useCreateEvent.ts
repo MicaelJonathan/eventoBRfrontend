@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Resolver } from 'react-hook-form';
 import { useState } from 'react';
 import { createEvent } from '@/services/eventService';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,24 +8,15 @@ export function useCreateEvent() {
   const [serverError, setServerError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<CreateEventSchemaType>({ resolver: zodResolver(CreateEventSchema) });
+  const resolver = zodResolver(CreateEventSchema) as Resolver<CreateEventSchemaType>;
+  const form = useForm<CreateEventSchemaType>({ resolver });
 
-  const paylod: CreateEventSchemaType = {
-    name: 'string',
-    description: 'string',
-    date_Time: '2026-08-16T12:35:51.870Z',
-    location: 'string',
-    latitude: 0,
-    longitude: 0,
-    capacity: 0,
-  };
-
-  const handleCreateEvent = async () => {
+  const handleCreateEvent = async (data: CreateEventSchemaType) => {
     setServerError(null);
     setIsSubmitting(true);
 
     try {
-      await createEvent(paylod);
+      await createEvent(data);
     } catch (e) {
       setServerError('Informações do formulário não preenchidas corretamente');
       console.error(e);
