@@ -26,7 +26,7 @@ export const CreateEventSchema = z.object({
     .number()
     .min(-180, { message: 'Longitude mínima é -180' })
     .max(180, { message: 'Longitude máxima é 180' }),
-  capacity: z
+  capacity: z.coerce
     .number({ message: 'Digite um número válido!' })
     .int({ message: 'A capacidade de pessoas deve ser um número inteiro!' })
     .min(1, { message: 'Seu evento deve comportar ao menos uma pessoa!' })
