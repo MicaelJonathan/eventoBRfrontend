@@ -5,9 +5,9 @@ import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMapEvents } fro
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { defaultMapValues } from '@/lib/constants';
-import { tempMockEvents } from '@/lib/tempMockEvents'; // Importando os eventos mockados, remover dps.
 import { useGetEvents } from '@/hooks/useGetEvents';
 import { getEventsResponseType } from '@/types/getEventsResponse';
+import { Calendar, Image, MapPin, Users } from 'lucide-react';
 
 interface MapComponentProps {
   latitude: number;
@@ -61,6 +61,9 @@ export default function MapComponent({
   const centerPosition: [number, number] = [latitude, longitude];
   const mapRef = useRef<L.Map | null>(null);
 
+  const informationLineClassName = 'flex text-gray-500 items-center gap-1 text-md';
+  const iconsSizeClassName = 'size-4';
+
   const mapHandlerClick = (lat: number, lng: number) => {
     onLocationSelect({ lat, lng });
     console.log('Coordenadas: ', { latitude: lat, longitude: lng });
@@ -101,18 +104,29 @@ export default function MapComponent({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ClickHandler onMapClick={mapHandlerClick} />
-      {/* Modificar "tempMockEvents.map" para pegar os eventos do backend, por enquanto está pegando dos mocks.
-      Se o tempo deixar modificar esse box tb.. não sou bom nisso e tá feio que doi os cabelo. */}
       {events?.map((event) => (
         <Marker key={event.id} position={[event.latitude, event.longitude]} icon={IconEvent2}>
-          <Popup>
-            {/* <img src={event.imageUrl} /> */}
-            <div className="flex flex-col gap-1 text-zinc-900">
-              <p className="font-semibold">{event.name}</p>
-              <p className="text-sm">{event.location}</p>
-              <p className="text-sm">{event.date_Time}</p>
-              <p className="text-sm">{event.capacity} participantes</p>
-            </div>
+          <Popup className="max-w-lg">
+            <ul className="flex flex-col gap-1">
+              <Image className="size-60" />
+              <div className="flex flex-col text-zinc-900">
+                <li>
+                  <span className="font-semibold text-2xl">{event.name}</span>
+                </li>
+                <li className={informationLineClassName}>
+                  <Users className={iconsSizeClassName} />
+                  <span>{event.capacity} participantes</span>
+                </li>
+                <li className={informationLineClassName}>
+                  <MapPin className={iconsSizeClassName} />
+                  <span>{event.location}</span>
+                </li>
+                <li className={informationLineClassName}>
+                  <Calendar className={iconsSizeClassName} />
+                  <span>{event.date_Time}</span>
+                </li>
+              </div>
+            </ul>
           </Popup>
         </Marker>
       ))}
