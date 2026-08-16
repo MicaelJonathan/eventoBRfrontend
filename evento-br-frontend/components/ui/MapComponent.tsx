@@ -1,13 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { defaultMapValues } from '@/lib/constants';
 import { useGetEvents } from '@/hooks/useGetEvents';
 import { getEventsResponseType } from '@/types/getEventsResponse';
-import { Calendar, Image, MapPin, Users } from 'lucide-react';
+import { Calendar, Image as ImageIcon, MapPin, Users } from 'lucide-react';
 
 interface MapComponentProps {
   latitude: number;
@@ -35,7 +35,6 @@ function createPinIcon(color: string) {
   });
 }
 
-const IconEvent1 = createPinIcon('#7e22ce'); // Icon 1, roxo
 const IconEvent2 = createPinIcon('#1717b6'); // Icon 2, azul
 const IconMarker = createPinIcon('#19191a'); // Icon de marcador, preto
 
@@ -59,9 +58,8 @@ export default function MapComponent({
   const { handleGetEvents } = useGetEvents();
 
   const centerPosition: [number, number] = [latitude, longitude];
-  const mapRef = useRef<L.Map | null>(null);
 
-  const informationLineClassName = 'flex text-gray-500 items-center gap-1 text-md';
+  const informationLineClassName = 'flex gap-1 text-md text-gray-500';
   const iconsSizeClassName = 'size-4';
 
   const mapHandlerClick = (lat: number, lng: number) => {
@@ -76,7 +74,7 @@ export default function MapComponent({
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchEvents();
-  }, []);
+  }, [fetchEvents]);
 
   return (
     <MapContainer
@@ -88,14 +86,6 @@ export default function MapComponent({
       zoomControl={false}
       style={{ width: '100vw', height: '100vh' }}
       className={className}
-      whenReady={() => {
-        const container = mapRef.current?.getContainer();
-        if (container) {
-          (container as any)._leaflet_id = mapRef.current
-            ? (mapRef.current as any)._leaflet_id
-            : null;
-        }
-      }}
     >
       <ZoomControl position="bottomright" />
       {}
@@ -107,26 +97,24 @@ export default function MapComponent({
       {events?.map((event) => (
         <Marker key={event.id} position={[event.latitude, event.longitude]} icon={IconEvent2}>
           <Popup className="max-w-lg">
-            <ul className="flex flex-col gap-1">
-              <Image className="size-60" />
-              <div className="flex flex-col text-zinc-900">
-                <li>
-                  <span className="font-semibold text-2xl">{event.name}</span>
-                </li>
-                <li className={informationLineClassName}>
+            <div className="flex flex-col items-center justify-center gap-2 text-center">
+              <ImageIcon className="size-60" aria-hidden="true" focusable="false" />
+              <div className="flex flex-col items-center text-zinc-900">
+                <span className="font-semibold text-2xl">{event.name}</span>
+                <span className={informationLineClassName}>
                   <Users className={iconsSizeClassName} />
                   <span>{event.capacity} participantes</span>
-                </li>
-                <li className={informationLineClassName}>
+                </span>
+                <span className={informationLineClassName}>
                   <MapPin className={iconsSizeClassName} />
                   <span>{event.location}</span>
-                </li>
-                <li className={informationLineClassName}>
+                </span>
+                <span className={informationLineClassName}>
                   <Calendar className={iconsSizeClassName} />
                   <span>{event.date_Time}</span>
-                </li>
+                </span>
               </div>
-            </ul>
+            </div>
           </Popup>
         </Marker>
       ))}

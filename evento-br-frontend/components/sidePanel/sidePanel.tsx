@@ -1,9 +1,10 @@
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { tempMockEvents } from '@/lib/tempMockEvents';
+import { useGetEvents } from '@/hooks/useGetEvents';
+import { getEventsResponseType } from '@/types/getEventsResponse';
+import { useCallback, useEffect, useState } from 'react';
 import Header from './header';
 import SearchBar from './searchBar';
 import EventsList from './eventsList';
@@ -20,14 +21,26 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [painelSideOpen, setPainelSideOpen] = useState(true);
+  const [events, setEvents] = useState<getEventsResponseType[] | null>(null);
 
   const { requireAuth } = useAuth();
+  const { handleGetEvents } = useGetEvents();
+
   const router = useRouter();
+
+  const fetchEvents = useCallback(async () => {
+    setEvents(await handleGetEvents());
+  }, [handleGetEvents]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchEvents();
+  }, []);
 
   return (
     <>
       <div
-        className={`fixed top-4 left-4 z-1 rounded-md bg-neutral-100 w-1/4 h-content p-4 flex flex-col gap-4 shadow-md transition-transform duration-300 ease-in-out ${painelSideOpen ? 'translate-x-0' : '-translate-x-[calc(100%+2rem)]'}`}
+        className={`fixed top-4 left-4 z-1 flex max-h-[calc(100vh-2rem)] w-1/4 flex-col gap-4 overflow-hidden rounded-md bg-neutral-100 p-4 shadow-md transition-transform duration-300 ease-in-out ${painelSideOpen ? 'translate-x-0' : '-translate-x-[calc(100%+2rem)]'}`}
       >
         <Header className="mx-auto w-1/3 flex justify-center" />
 
@@ -53,7 +66,7 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
           selectedLocation={selectedLocation}
         />
 
-        <EventsList events={tempMockEvents} />
+        <EventsList events={events} />
       </div>
 
       <Button
