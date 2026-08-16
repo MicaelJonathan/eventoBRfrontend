@@ -73,6 +73,7 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
         <SidePanelDialogs
           createEventOpen={createEventOpen}
           setCreateEventOpen={setCreateEventOpen}
+          selectedLocation={selectedLocation}
           calendarOpen={calendarOpen}
           setCalendarOpen={setCalendarOpen}
           settingsOpen={settingsOpen}

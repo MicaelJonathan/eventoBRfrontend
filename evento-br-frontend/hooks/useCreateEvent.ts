@@ -34,5 +34,5 @@ export function useCreateEvent() {
     }
   };
 
-  return { ...form, handleCreateEvent, serverError, isSubmitting };
+  return { ...form, handleCreateEvent, serverError, isSubmitting, setValue: form.setValue };
 }

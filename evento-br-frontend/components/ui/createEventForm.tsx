@@ -1,6 +1,7 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useEffect } from 'react';
 import { useCreateEvent } from '@/hooks/useCreateEvent';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
@@ -14,14 +15,18 @@ export default function CreateEventForm({ onCancel, selectedLocation }: CreateEv
     register,
     handleSubmit,
     handleCreateEvent,
+    setValue,
     serverError,
     isSubmitting,
     formState: { errors },
   } = useCreateEvent();
 
-  const coordinatesToString = selectedLocation
-    ? `${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`
-    : 'Nenhuma coordenada selecionada';
+  useEffect(() => {
+    if (selectedLocation) {
+      setValue('latitude', selectedLocation.lat);
+      setValue('longitude', selectedLocation.lng);
+    }
+  }, [selectedLocation, setValue]);
 
   return (
     <Card size="default" className="mx-auto max-w-4x1 w-full max-h-fit">
@@ -53,7 +58,7 @@ export default function CreateEventForm({ onCancel, selectedLocation }: CreateEv
                 id="datetime-local"
                 type="datetime-local"
                 {...register('date_Time', {
-                  setValueAs: (value) => new Date(value).toISOString(),
+                  setValueAs: (value) => (value ? new Date(value).toISOString() : ''),
                 })}
               />
               {errors.date_Time && (
