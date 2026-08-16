@@ -22,6 +22,8 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [painelSideOpen, setPainelSideOpen] = useState(true);
   const [events, setEvents] = useState<getEventsResponseType[] | null>(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { requireAuth } = useAuth();
   const { handleGetEvents } = useGetEvents();
@@ -35,7 +37,17 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchEvents();
-  }, []);
+  }, [fetchEvents]);
+
+  const filteredEvents = events?.filter((event) => {
+    const query = searchQuery.trim().toLowerCase();
+
+    if (!query) {
+      return true;
+    }
+
+    return [event.name, event.location].some((field) => field.toLowerCase().includes(query));
+  });
 
   return (
     <>
@@ -49,6 +61,9 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
             <SearchBar
               placeHolder="Procure um evento..."
               className="border-1 rounded-md border-gray-300 bg-white h-full"
+              value={searchInput}
+              onChange={setSearchInput}
+              onSubmmit={() => setSearchQuery(searchInput)}
             />
           </div>
           <FilterButton className="bg-white size-10 rounded-md border-1 border-gray-300 flex items-center justify-center" />
@@ -66,7 +81,7 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
           selectedLocation={selectedLocation}
         />
 
-        <EventsList events={events} />
+        <EventsList events={filteredEvents ?? null} />
       </div>
 
       <Button
