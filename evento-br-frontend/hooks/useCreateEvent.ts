@@ -1,7 +1,7 @@
-import { useForm, Resolver } from 'react-hook-form';
 import { useState } from 'react';
 import { createEvent } from '@/services/eventService';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, Resolver } from 'react-hook-form';
 import { CreateEventSchemaType, CreateEventSchema } from '@/schemas/createEventSchema';
 
 export function useCreateEvent() {

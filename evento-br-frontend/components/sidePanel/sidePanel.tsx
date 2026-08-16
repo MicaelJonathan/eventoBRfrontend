@@ -10,7 +10,7 @@ import EventsList from './eventsList';
 import PanelActions from './panelActions';
 import FilterButton from './filterButton';
 import SidePanelDialogs from './sidePanelDialogs';
-import { getEvents } from '@/services/eventService';
+import { useGetEvents } from '@/hooks/useGetEvents';
 
 interface SidePanelProps {
   selectedLocation: { lat: number; lng: number } | null;
@@ -23,6 +23,7 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
   const [painelSideOpen, setPainelSideOpen] = useState(true);
 
   const { requireAuth } = useAuth();
+  const { handleGetEvents } = useGetEvents();
   const router = useRouter();
 
   return (
@@ -31,7 +32,7 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
         className={`fixed top-4 left-4 z-1 rounded-md bg-neutral-100 w-1/4 h-content p-4 flex flex-col gap-4 shadow-md transition-transform duration-300 ease-in-out ${painelSideOpen ? 'translate-x-0' : '-translate-x-[calc(100%+2rem)]'}`}
       >
         <Header className="mx-auto w-1/3 flex justify-center" />
-        <Button className={'size-40 m-auto z-1'} onClick={() => console.log(getEvents())}>
+        <Button className={'size-40 m-auto z-1'} onClick={() => handleGetEvents()}>
           AQUI!!!!!!
         </Button>
 
