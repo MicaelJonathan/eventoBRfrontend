@@ -63,7 +63,7 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
               className="border-1 rounded-md border-gray-300 bg-white h-full"
               value={searchInput}
               onChange={setSearchInput}
-              onEnter={() => setSearchQuery(searchInput)}
+              onSubmmit={() => setSearchQuery(searchInput)}
             />
           </div>
           <FilterButton className="bg-white size-10 rounded-md border-1 border-gray-300 flex items-center justify-center" />

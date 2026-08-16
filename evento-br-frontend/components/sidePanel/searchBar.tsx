@@ -7,7 +7,7 @@ type SearchBarProps = {
   placeHolder: string;
   value: string;
   onChange: (value: string) => void;
-  onEnter: () => void;
+  onSubmmit: () => void;
 };
 
 export default function SearchBar({
@@ -15,12 +15,12 @@ export default function SearchBar({
   placeHolder,
   value,
   onChange,
-  onEnter,
+  onSubmmit,
 }: SearchBarProps) {
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      onEnter();
+      onSubmmit();
     }
   };
 
@@ -34,7 +34,7 @@ export default function SearchBar({
           onKeyDown={handleKeyDown}
         />
         <InputGroupAddon>
-          <Search />
+          <Search onClick={() => onSubmmit()} className="cursor-pointer size-5" />
         </InputGroupAddon>
       </InputGroup>
     </>
