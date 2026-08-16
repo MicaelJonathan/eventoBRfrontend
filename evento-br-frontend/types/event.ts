@@ -6,5 +6,7 @@ export interface EventType {
   date: string;
   hour: string;
   participantsQuantity: number;
+  latitude: number;
+  longitude: number;
   saved?: boolean;
 }

@@ -6,10 +6,16 @@ import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 type CreateEventFormProps = {
   onCancel?: () => void;
+  selectedLocation: { lat: number; lng: number } | null;
 };
 
-export default function CreateEventForm({ onCancel }: CreateEventFormProps) {
+export default function CreateEventForm({ onCancel, selectedLocation }: CreateEventFormProps) {
   const { register, handleSubmit } = useForm();
+
+  const coordinatesToString = selectedLocation
+    ? `${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`
+    : 'Nenhuma coordenada selecionada';
+
   return (
     <Card
       size="default"

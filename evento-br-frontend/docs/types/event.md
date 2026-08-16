@@ -9,6 +9,8 @@ export interface EventType {
   date: string;
   hour: string;
   participantsQuantity: number;
+  latitude: number;
+  longitude: number;
   saved?: boolean;
 }
 ```
@@ -21,4 +23,6 @@ export interface EventType {
 - date: Data do evento;
 - hour: Hora do evento;
 - participantsQuantity: Capacidade máxima de pessoas;
+- latitude: numero pego pelo click do mapa e auto inserido no formulario de evento
+- longitude: numero pego pelo click do mapa e auto inserido no formulario de evento
 - saved: Determina se está salvo ou não no banco de dados.

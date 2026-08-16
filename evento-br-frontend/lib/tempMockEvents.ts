@@ -9,6 +9,8 @@ export const tempMockEvents: EventType[] = [
     date: '24 de maio',
     hour: '20:00',
     participantsQuantity: 250,
+    latitude: -7.0296,
+    longitude: -37.281,
     saved: false,
   },
   {
@@ -19,6 +21,8 @@ export const tempMockEvents: EventType[] = [
     date: '18 de agosto',
     hour: '21:00',
     participantsQuantity: 2,
+    latitude: -7.021,
+    longitude: -37.274,
     saved: false,
   },
 ];
