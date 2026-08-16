@@ -21,7 +21,9 @@ export default function SignInUserForm({ onSignInSuccess, onCancel }: SignInUser
 
   return (
     <Card size="default" className="mx-auto w-full max-w-4xl max-h-fit ">
-      <CardHeader className="font-semibold">Entrar na sua conta</CardHeader>
+      <CardHeader>
+        <span className="font-semibold">Entrar na sua conta</span>
+      </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="flex flex-col gap-4">

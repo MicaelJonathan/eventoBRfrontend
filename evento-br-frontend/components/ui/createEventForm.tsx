@@ -31,50 +31,57 @@ export default function CreateEventForm({ onCancel, selectedLocation }: CreateEv
   return (
     <Card size="default" className="mx-auto max-w-4x1 w-full max-h-fit">
       <CardHeader>
-        <h3 className="font-semibold">Criar evento</h3>
+        <span className="font-semibold">Criar evento</span>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(() => handleCreateEvent())}>
-          <div className="space-y-4">
-            <div>
+        <form onSubmit={handleSubmit(handleCreateEvent)}>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <Label htmlFor="name">Nome do evento</Label>
-              <Input id="name" placeholder="Ex: Feira de Tecnologia" {...register('name')} />
+              <Input
+                {...register('name')}
+                id="name"
+                type="text"
+                placeholder="Ex: Feira de Tecnologia"
+              />
               {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
               <Label htmlFor="description">Descrição do evento</Label>
               <Input
-                id="description"
-                placeholder="Ex: Uma feira de tecnologia com palestras e workshops"
                 {...register('description')}
+                id="description"
+                type="text"
+                placeholder="Ex: Uma feira de tecnologia com palestras e workshops"
               />
               {errors.description && (
                 <p className="text-sm text-red-500">{errors.description.message}</p>
               )}
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
               <Label htmlFor="datetime-local">Data do evento</Label>
               <Input
-                id="datetime-local"
-                type="datetime-local"
                 {...register('date_Time', {
                   setValueAs: (value) => (value ? new Date(value).toISOString() : ''),
                 })}
+                id="datetime-local"
+                type="datetime-local"
               />
               {errors.date_Time && (
                 <p className="text-sm text-red-500">{errors.date_Time.message}</p>
               )}
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
               <Label htmlFor="location">Local do evento</Label>
               <Input
-                id="location"
-                placeholder="Ex: Centro de Convenções - Centro"
                 {...register('location')}
+                id="location"
+                type="text"
+                placeholder="Ex: Centro de Convenções - Centro"
               />
               {errors.location && <p className="text-sm text-red-500">{errors.location.message}</p>}
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
               <Label htmlFor="capacity">Número de esperado participantes</Label>
               <Input id="capacity" type="number" placeholder="Ex: 100" {...register('capacity')} />
               {errors.capacity && <p className="text-sm text-red-500">{errors.capacity.message}</p>}
