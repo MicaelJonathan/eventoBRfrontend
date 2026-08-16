@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-export const createEventSchema = z.object({
+export const CreateEventSchema = z.object({
   name: z
     .string({ message: 'Digite um nome válido!' })
     .min(3, { message: 'O nome é muito curto! Digite ao menos 3 caracteres.' })
@@ -33,4 +33,4 @@ export const createEventSchema = z.object({
     .max(1000000000, { message: 'Que evento é esse para um bilhão de pessoas?' }),
 });
 
-export type createEventSchemaType = z.infer<typeof createEventSchema>;
+export type CreateEventSchemaType = z.infer<typeof CreateEventSchema>;

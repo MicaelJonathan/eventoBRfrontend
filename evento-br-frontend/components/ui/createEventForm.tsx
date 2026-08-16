@@ -2,7 +2,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
-import { createEvent } from '@/services/eventService';
+import { useCreateEvent } from '@/hooks/useCreateEvent';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 
 type CreateEventFormProps = {
@@ -12,6 +12,7 @@ type CreateEventFormProps = {
 
 export default function CreateEventForm({ onCancel, selectedLocation }: CreateEventFormProps) {
   const { register, handleSubmit } = useForm();
+  const { handleCreateEvent } = useCreateEvent();
 
   const coordinatesToString = selectedLocation
     ? `${selectedLocation.lat.toFixed(5)}, ${selectedLocation.lng.toFixed(5)}`
@@ -59,7 +60,7 @@ export default function CreateEventForm({ onCancel, selectedLocation }: CreateEv
             </div>
           </div>
           <div className="mt-4 flex gap-2">
-            <Button type="submit" onClick={() => createEvent()}>
+            <Button type="submit" onClick={() => handleCreateEvent()}>
               Criar evento
             </Button>
             <Button onClick={() => onCancel?.()}>Cancelar</Button>
