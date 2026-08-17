@@ -1,11 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { useCallback } from 'react';
-import { useGetEvents } from '@/hooks/useGetEvents';
-import { useEffect, useState } from 'react';
-import { getEventsResponseType } from '@/types/getEventsResponse';
+import { useState } from 'react';
+import { useCalendarEvents } from '@/hooks/useCalendarEvents';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { parseLocalDate } from '@/lib/date';
 
 type CreateCalendarFormProps = {
   onCancel?: () => void;
@@ -19,23 +16,8 @@ export default function CreateCalendarForm({
   onOpenChange,
 }: CreateCalendarFormProps) {
   const [selected, setSelected] = useState<Date | undefined>(undefined);
-  const [events, setEvents] = useState<getEventsResponseType[] | null>(null);
 
-  const { handleGetEvents } = useGetEvents();
-
-  const allData: Date[] = [];
-  const markDate = events?.map((event) => {
-    allData.push(parseLocalDate(event.date_Time));
-  });
-
-  const fetchEvents = useCallback(async () => {
-    setEvents(await handleGetEvents());
-  }, [handleGetEvents]);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchEvents();
-  }, []);
+  const { events, markedDates } = useCalendarEvents();
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -48,7 +30,7 @@ export default function CreateCalendarForm({
           mode="single"
           selected={selected}
           onSelect={setSelected}
-          modifiers={{ marked: allData }}
+          modifiers={{ marked: markedDates }}
           modifiersClassNames={{
             marked: 'rounded-full font-semibold bg-gray-700 text-white',
           }}
