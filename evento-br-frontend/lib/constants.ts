@@ -27,39 +27,39 @@ interface eventDebugProps {
 }
 
 export const eventDebug: eventDebugProps = {
-  title: 'Evento de Teste',
-  description: 'Descrição do evento de teste',
-  date: '2026-07-29',
-  time: '19:00',
-  location: 'Sala de Eventos',
-  capacity: 100
+  title: 'Apresentação MPV Boralí',
+  description: 'Apresentação do MPV Boralí na sala do P6.',
+  date: '2026-08-18',
+  time: '07:00',
+  location: 'UEPB - Sala P6',
+  capacity: 30
 };
 
 export const eventDebug2: eventDebugProps = {
-  title: 'Evento de Teste 2',
-  description: 'Descrição do evento de teste 2',
-  date: '2026-07-25',
-  time: '20:00',
-  location: 'Auditório Principal',
-  capacity: 200
+  title: 'Promoção de estoque Armazem Paraíba',
+  description: 'Todos os produtos em até 30% de desconto, venha conferir!',
+  date: '2026-08-20',
+  time: '10:00',
+  location: 'Armazém Paraíba - Loja Central Centro Patos',
+  capacity: 250
 };
 
 export const eventDebugSame1: eventDebugProps = {
-  title: 'Evento de Teste 3',
-  description: 'Descrição do evento de teste 2',
-  date: '2026-07-25',
-  time: '21:00',
-  location: 'Auditório Principal',
-  capacity: 200
+  title: 'Corrida Solidaria - Alça sudoeste 2026',
+  description: 'Corrida em prol da luta contra o cancer, venha participar e ajudar a salvar vidas!',
+  date: '2026-08-22',
+  time: '05:00',
+  location: 'Alça Sudoeste - Patos PB',
+  capacity: 150
 };
 
 export const eventDebugSame2: eventDebugProps = {
-  title: 'Evento de Teste 4',
-  description: 'Descrição do evento de teste',
-  date: '2026-07-29',
-  time: '22:00',
-  location: 'Sala de Eventos',
-  capacity: 100
+  title: 'Campanha de vacinação aos animais',
+  description: 'Campanha de vacinação aos animais do bairro, venha vacinar seu animalzinho e ajudar a manter a saúde da população!',
+  date: '2026-08-30',
+  time: '10:00',
+  location: 'Hospital Veterinário Alto da Tubiba - Patos PB',
+  capacity: 500
 };
 
 //-------------------------------
