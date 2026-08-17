@@ -37,7 +37,7 @@ export default function SidePanel({ selectedLocation }: SidePanelProps) {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchEvents();
-  }, [fetchEvents]);
+  }, []);
 
   const filteredEvents = events?.filter((event) => {
     const query = searchQuery.trim().toLowerCase();
