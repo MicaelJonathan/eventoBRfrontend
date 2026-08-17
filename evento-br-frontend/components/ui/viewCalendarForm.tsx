@@ -5,19 +5,13 @@ import { useGetEvents } from '@/hooks/useGetEvents';
 import { useEffect, useState } from 'react';
 import { getEventsResponseType } from '@/types/getEventsResponse';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { parseLocalDate } from '@/lib/date';
 
 type CreateCalendarFormProps = {
   onCancel?: () => void;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 };
-
-function parseLocalDate(dateStr: string) {
-  const formattedDateStr = dateStr.split('T')[0];
-  const [year, month, day] = formattedDateStr.split('-').map(Number);
-  console.log([year, month, day]);
-  return new Date(year, month - 1, day);
-}
 
 export default function CreateCalendarForm({
   onCancel,
